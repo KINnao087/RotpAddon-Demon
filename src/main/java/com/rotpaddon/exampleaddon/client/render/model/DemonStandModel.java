@@ -111,29 +111,13 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 
 
 
-//	private final ModelRenderer root;
-//	private final ModelRenderer head;
-//	private final ModelRenderer torso;
-//	private final ModelRenderer body;
-//	private final ModelRenderer leftArmJoint;
-//	private final ModelRenderer leftArm;
-//	private final ModelRenderer leftForeArm;
 	private ModelRenderer leftShoulder;
-//	private final ModelRenderer rightArmJoint;
-//	private final ModelRenderer rightArm;
-//	private final ModelRenderer rightForeArm;
 	private ModelRenderer rightShoulder;
-//	private final ModelRenderer leftLegJoint;
-//	private final ModelRenderer leftLeg;
-//	private final ModelRenderer leftLowerLeg;
 	private ModelRenderer leftKnee;
-//	private final ModelRenderer rightLegJoint;
-//	private final ModelRenderer rightLeg;
-//	private final ModelRenderer rightLowerLeg;
 	private ModelRenderer rightKnee;
 
 	public DemonStandModel() {
-        super();
+        super(64, 64);
 		addHumanoidBaseBoxes(null);
 		texWidth = 128;
 		texHeight = 128;

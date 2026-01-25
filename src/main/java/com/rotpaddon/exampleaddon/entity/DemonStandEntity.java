@@ -9,8 +9,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
 public class DemonStandEntity extends StandEntity {
-    private static final DataParameter<Boolean> HAS_PICKAXE = 
-            EntityDataManager.defineId(DemonStandEntity.class, DataSerializers.BOOLEAN);
 
     public DemonStandEntity(StandEntityType<DemonStandEntity> type, World world) {
         super(type, world);
@@ -19,14 +17,5 @@ public class DemonStandEntity extends StandEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(HAS_PICKAXE, false);
-    }
-    
-    public boolean hasPickaxe() {
-        return entityData.get(HAS_PICKAXE);
-    }
-    
-    public void setHasPickaxe(boolean hasPickaxe) {
-        entityData.set(HAS_PICKAXE, hasPickaxe);
     }
 }

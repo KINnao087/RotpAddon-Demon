@@ -61,7 +61,6 @@ public class InitStands {
                     .staminaCostTick(75F)
                     .standPose(StandPose.RANGED_ATTACK)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, InitSounds.DEMON_STAND_SUMMON_SOUND)
-                    .shout(InitSounds.DEMON_STAND_PUNCH_BARRAGE)
                     .resolveLevelToUnlock(2)
                     .holdToFire(40, false)
                     .partsRequired(StandPart.MAIN_BODY)));
@@ -75,7 +74,7 @@ public class InitStands {
         new EntityStandRegistryObject<>("demon_stand", 
                 STANDS, 
                 () -> new EntityStandType.Builder<StandStats>()
-                .color(0x00AFAF)
+                .color(0xAD0000)
                 .storyPartName(ModStandsInit.PART_3_NAME)
                 .leftClickHotbar(
                         DEMON_STAND_PUNCH.get(),
@@ -84,7 +83,6 @@ public class InitStands {
                 .rightClickHotbar(
                         DEMON_STAND_BLOCK.get(),
                         DEMON_STAND_DOMAIN.get()
-//                        DEMON_STAND_THROW_PICKAXE.get()
                         )
                 .defaultStats(StandStats.class, new StandStats.Builder()
                         .tier(6)

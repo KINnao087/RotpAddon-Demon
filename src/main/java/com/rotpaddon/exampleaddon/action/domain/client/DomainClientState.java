@@ -7,16 +7,18 @@ import java.util.List;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(value = Dist.CLIENT, bus = Bus.FORGE, modid = "myrotpaddon")
 public final class DomainClientState {
+
     private DomainClientState() {}
 
     public static final List<DomainInstance> DOMAINS = new ArrayList<>();
@@ -48,6 +50,31 @@ public final class DomainClientState {
                 it.remove();
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent e) {
+        if (e.phase != TickEvent.Phase.END) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc == null || mc.level == null || mc.player == null) return;
+
+
+        ClientPlayerEntity player = mc.player;
+        boolean inDomain = isInDomain(player.position(), mc.level.getGameTime());
+//        if (inDomain) LogManager.getLogger().info("here   tick DomainShaders");
+        DomainShader.tick(mc, inDomain);
+    }
+
+    private static boolean isInDomain(Vector3d pos, long tick) {
+        for (DomainInstance d : DOMAINS) {
+            double r = (double)d.currentRadius(tick);
+            double dist = pos.distanceTo(d.center);
+            if (dist < r) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @SubscribeEvent

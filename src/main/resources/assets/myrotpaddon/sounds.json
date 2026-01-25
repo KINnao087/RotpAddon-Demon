@@ -1,3 +1,6 @@
 {
-  
+  "domain_expand": {
+    "subtitle": "myrotpaddon.subtitle.domain_expand.name",
+    "sounds": [ "myrotpaddon:domain_expand" ]
+  }
 }
