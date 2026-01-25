@@ -5,11 +5,15 @@ import com.github.standobyte.jojo.action.config.ActionConfigField;
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
+import com.github.standobyte.jojo.init.power.non_stand.ModPowers;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
 import com.rotpaddon.exampleaddon.action.domain.network.DomainNetwork;
 import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CAddDomainPacket;
 
+import com.rotpaddon.exampleaddon.init.InitSounds;
+import com.rotpaddon.exampleaddon.utils.ClientUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -23,8 +27,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class StandDomainAction extends StandEntityAction {
-    private static final int EXPAND_TICK = 50;
-    private static final int CLOSE_TICK = 50;
+    private static final int EXPAND_TICK = 10;
+    private static final int CLOSE_TICK = 5;
 
     @ActionConfigField private final int domainMaxTicks;
     @ActionConfigField private final int domainMaxTicksZombie;
@@ -39,6 +43,10 @@ public class StandDomainAction extends StandEntityAction {
     @ActionConfigField private final float domainMaxRadiusZombie;
     @ActionConfigField private final float domainMaxRadiusVampire;
     @ActionConfigField private final float domainMaxRadiusPillarman;
+
+    @ActionConfigField private final float staminaCost;
+    @ActionConfigField private final float staminaCostPerTick;
+
 
     public StandDomainAction(StandDomainAction.Builder builder) {
         super(builder);
@@ -56,11 +64,53 @@ public class StandDomainAction extends StandEntityAction {
         this.domainMaxRadiusZombie = builder.domainMaxRadiusZombie;
         this.domainMaxRadiusVampire = builder.domainMaxRadiusVampire;
         this.domainMaxRadiusPillarman = builder.domainMaxRadiusPillarman;
+
+        this.staminaCost = builder.staminaCost;
+        this.staminaCostPerTick = builder.staminaCostPerTick;
+    }
+
+    public float getDomainCooldownPerTick() {
+        return this.domainCooldownPerTick;
+    }
+
+    public int getDomainMaxTicks(IStandPower standPower) {
+        LivingEntity e = standPower.getUser();
+        if (vampireDomain(e)) return this.domainMaxTicksVampire;
+        if (pillarmanDomain(e)) return this.domainMaxTicksPillarman;
+        if (zombieDomain(e)) return this.domainMaxTicksZombie;
+        return this.domainMaxTicks + EXPAND_TICK + CLOSE_TICK;
+    }
+    public float getDomainMaxRadius(IStandPower standPower) {
+        LivingEntity e = standPower.getUser();
+        if (vampireDomain(e)) return this.domainMaxRadiusVampire;
+        if (pillarmanDomain(e)) return this.domainMaxRadiusPillarman;
+        if (zombieDomain(e)) return this.domainMaxRadiusZombie;
+        return this.domainMaxRadius;
+    }
+
+    public static boolean vampireDomain(LivingEntity entity) {
+        return ModPowers.VAMPIRISM.get().isHighOnBlood(entity);
+    }
+    public static boolean pillarmanDomain(LivingEntity entity) {
+        return ModPowers.PILLAR_MAN.get().isHighLifeForce(entity);
+    }
+    public static boolean zombieDomain(LivingEntity entity) {
+        return ModPowers.ZOMBIE.get().isHighSaturation(entity);
+    }
+
+    @Override
+    public float getStaminaCost(IStandPower power) {
+        return this.staminaCost;
+    }
+
+    public float getStaminaCostPerTick(IStandPower power) {
+        return this.staminaCostPerTick * power.getMaxStamina();
     }
 
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (world.isClientSide()) {
+            ClientUtils.playSound(InitSounds.DEMON_STAND_START_DOMAIN.get(), 1.0f);
             return;
         }
 
@@ -77,8 +127,8 @@ public class StandDomainAction extends StandEntityAction {
         DomainInstance inst = new DomainInstance(pos,
                 nowTick,
                 EXPAND_TICK,
-                getMaxRadius(),
-                KEEP_TICK,
+                getDomainMaxRadius(userPower),
+                getDomainMaxTicks(userPower),
                 CLOSE_TICK,
                 user.getUUID());
 
@@ -88,6 +138,9 @@ public class StandDomainAction extends StandEntityAction {
                 PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> user),
                 new S2CAddDomainPacket(inst)
         );
+
+        int durationTicks = getDomainMaxTicks(userPower);
+        userPower.setCooldownTimer(this, durationTicks);
     }
 
     private static final int EFFECT_DURATION = 50;
@@ -110,7 +163,7 @@ public class StandDomainAction extends StandEntityAction {
                 entity.addEffect(new EffectInstance(Effects.SATURATION, EFFECT_DURATION, 0));
                 continue;
             }
-            entity.addEffect(new EffectInstance(Effects.WITHER, EFFECT_DURATION, 0));
+            entity.addEffect(new EffectInstance(Effects.WITHER, EFFECT_DURATION, 1));
             entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, EFFECT_DURATION, 0));
             entity.addEffect(new EffectInstance(Effects.HUNGER, EFFECT_DURATION, 0));
             entity.addEffect(new EffectInstance(Effects.BLINDNESS, EFFECT_DURATION, 0));
@@ -134,10 +187,22 @@ public class StandDomainAction extends StandEntityAction {
         private float domainMaxRadiusZombie = 30;
         private float domainMaxRadiusVampire = 50;
         private float domainMaxRadiusPillarman = 50;
+        private float staminaCost = 0.02f;
+        private float staminaCostPerTick = 0.01f;
 
         private Supplier<SoundEvent> voiceLineWithStandSummoned = () -> null;
         private Supplier<SoundEvent> domainSound = () -> null;
         private Supplier<SoundEvent> domainCloseSound = () -> null;
+
+        public Builder staminaCost(float staminaCost) {
+            this.staminaCost = staminaCost;
+            return getThis();
+        }
+
+        public Builder staminaCostPerTick(float staminaCostPerTick) {
+            this.staminaCostPerTick = staminaCostPerTick;
+            return getThis();
+        }
 
         public Builder domainMaxTicks(int forHuman, int forVampire, int forPillarman, int forZombie) {
             forHuman = Math.max(0, forHuman);

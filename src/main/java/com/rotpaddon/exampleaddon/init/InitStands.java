@@ -1,13 +1,10 @@
 package com.rotpaddon.exampleaddon.init;
 
 import com.github.standobyte.jojo.action.Action;
-import com.github.standobyte.jojo.action.stand.StandEntityAction;
-import com.github.standobyte.jojo.action.stand.StandEntityBlock;
-import com.github.standobyte.jojo.action.stand.StandEntityHeavyAttack;
-import com.github.standobyte.jojo.action.stand.StandEntityLightAttack;
-import com.github.standobyte.jojo.action.stand.StandEntityMeleeBarrage;
+import com.github.standobyte.jojo.action.stand.*;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 import com.github.standobyte.jojo.entity.stand.StandPose;
+import com.github.standobyte.jojo.init.ModSounds;
 import com.github.standobyte.jojo.init.power.stand.EntityStandRegistryObject;
 import com.github.standobyte.jojo.init.power.stand.ModStandsInit;
 import com.github.standobyte.jojo.power.impl.stand.StandInstance.StandPart;
@@ -16,6 +13,7 @@ import com.github.standobyte.jojo.power.impl.stand.type.EntityStandType;
 import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.rotpaddon.exampleaddon.AddonMain;
 import com.rotpaddon.exampleaddon.action.domain.StandDomainAction;
+import com.rotpaddon.exampleaddon.action.domain.StandDomainClose;
 import com.rotpaddon.exampleaddon.entity.DemonStandEntity;
 
 import net.minecraftforge.fml.RegistryObject;
@@ -55,19 +53,23 @@ public class InitStands {
                     .punchSound(InitSounds.DEMON_STAND_PUNCH_HEAVY)
                     .partsRequired(StandPart.ARMS)));
 
+
     public static final RegistryObject<StandDomainAction> DEMON_STAND_DOMAIN = ACTIONS.register("domain",
-            () -> new StandDomainAction(new StandEntityAction.Builder()
+            () -> new StandDomainAction(new StandDomainAction.Builder()
                     .cooldown(360)
                     .staminaCostTick(75F)
                     .standPose(StandPose.RANGED_ATTACK)
-                    .standSound(StandEntityAction.Phase.BUTTON_HOLD, InitSounds.DEMON_STAND_SUMMON_SOUND)
+                    .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
+//                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN)
                     .resolveLevelToUnlock(2)
-                    .holdToFire(40, false)
-                    .partsRequired(StandPart.MAIN_BODY)));
+                    .holdToFire(40, false)));
+    public static final RegistryObject<StandEntityAction> DEMON_STAND_DOMAIN_CLOSE = ACTIONS.register("domain_close",
+            () -> new StandDomainClose(new StandEntityAction.Builder()
+                    .shiftVariationOf(DEMON_STAND_DOMAIN)));
     
     public static final RegistryObject<StandEntityAction> DEMON_STAND_BLOCK = ACTIONS.register("demon_stand_block",
             () -> new StandEntityBlock());
-    
+
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<DemonStandEntity>> STAND_DEMON_STAND = 

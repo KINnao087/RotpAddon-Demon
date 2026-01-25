@@ -1,6 +1,8 @@
 package com.rotpaddon.exampleaddon.action.domain;
 
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
+import com.rotpaddon.exampleaddon.init.InitStands;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
@@ -22,6 +24,11 @@ public class DomainServerManager {
     public static void addDomain(DomainInstance inst) {
         DOMAINS.put(inst.ownerUuid, inst);
     }
+    public static void removeDomain(UUID uuid, long nowTick) {
+        DomainInstance inst = DOMAINS.get(uuid);
+        if (inst == null) return;
+        inst.forceClose(nowTick);
+    }
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
@@ -34,22 +41,43 @@ public class DomainServerManager {
         if (nowTick % REFRESH_TICK != 0) return;
 
         Iterator<Map.Entry<UUID, DomainInstance>> it = DOMAINS.entrySet().iterator();
+
         while (it.hasNext()) {
             DomainInstance d = it.next().getValue();
 
+            ServerPlayerEntity caster = world.getServer().getPlayerList().getPlayer(d.ownerUuid);
+
+            if (caster == null) continue;
+
+            StandDomainAction open = (StandDomainAction) InitStands.DEMON_STAND_DOMAIN.get();
+            IStandPower power = IStandPower.getPlayerStandPower(caster);
+
+            if (power == null) continue;
+
             long life = (long) d.durationTicks + d.keepTicks + d.closeTicks;
-            if (nowTick - d.startTick > life) {
+            if (nowTick - d.startTick > life || d.isExpired(nowTick)) {
+                if (d.isExpired(nowTick)) {
+                    System.out.println("domain force closed");
+                }
+                long usedTick = d.usedTicks(nowTick);
+                {
+                    long used = d.usedTicks(nowTick);
+                    int realCd = (int) Math.ceil(used * open.getDomainCooldownPerTick());
+
+                    if (caster.isCreative()) realCd = 0;
+
+                    power.setCooldownTimer(open, realCd);
+                }
+
                 it.remove();
                 continue;
             }
-
-            ServerPlayerEntity caster = world.getServer().getPlayerList().getPlayer(d.ownerUuid);
-            if (caster == null) continue;
 
             float r = d.currentRadius(nowTick);
             if (r <= 0.1f) continue;
 
             StandDomainAction.handleDomainEffects(world, d.center, r, caster);
+            power.consumeStamina(open.getStaminaCostPerTick(power));
         }
     }
 

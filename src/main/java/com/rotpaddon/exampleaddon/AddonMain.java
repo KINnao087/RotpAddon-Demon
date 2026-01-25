@@ -16,7 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class AddonMain {
     // The mod's id. Used quite often, mostly when creating ResourceLocation (objects).
     // Its value should match the "modid" entry in the META-INF/mods.toml file
-    public static final String MOD_ID = "myrotpaddon";
+    public static final String MOD_ID = "demonaddon";
 
     public AddonMain() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -39,9 +39,11 @@ public class DomainInstance {
         closeStartRadius = Math.max(0F, radiusNow);
     }
 
-    public boolean isExpired(float nowTick) {
+    public boolean isExpired(long nowTick) {
         if (forcedClosing) {
-            return closeTicks <= 0 || nowTick >= closeStartTick + (long) closeTicks;
+            boolean ret = closeTicks <= 0 || nowTick >= closeStartTick + (long) closeTicks;
+            System.out.println("closing " + ret);
+            return ret;
         }
         long totalEnd = startTick + (long) durationTicks + (long) keepTicks + (long) closeTicks;
         return nowTick >= totalEnd;
@@ -83,4 +85,16 @@ public class DomainInstance {
         float s = t * t * t * (t * (t * 6F - 15F) + 10F);
         return startRadius * (1F - s);
     }
+
+    public long usedTicks(long nowTick) {
+        long endOfUse = forcedClosing ? closeStartTick : Math.min(nowTick, startTick + (long) durationTicks + (long) keepTicks);
+        long used = endOfUse - startTick;
+        if (used < 0) used = 0;
+
+        long maxUse = (long) durationTicks + (long) keepTicks;
+        if (used > maxUse) used = maxUse;
+
+        return used;
+    }
+
 }

@@ -2,12 +2,13 @@
   "targets": ["swap"],
   "passes": [
     {
-      "name": "myrotpaddon:domain",
+      "name": "demonaddon:domain",
       "intarget": "minecraft:main",
       "outtarget": "swap",
       "uniforms": [
         { "name": "Intensity", "values": [0.0] },
-        { "name": "Flash",     "values": [0.0] }
+        { "name": "Flash",     "values": [0.0] },
+        { "name": "KeepRed",   "values": [1.0] }
       ]
     },
     {

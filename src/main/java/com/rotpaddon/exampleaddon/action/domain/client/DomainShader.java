@@ -20,57 +20,76 @@ public final class DomainShader {
     private static boolean shaderOn = false;
     private static boolean lastInDomain = false;
 
+    // 0..1
     private static float intensity = 0f;
     private static float flash = 0f;
 
-    // 你自己调
-    private static final float INTENSITY_LERP = 0.35f;
-    private static final float FLASH_DECAY   = 0.45f;
+    // ===== 调参（按 tick 计）=====
+    // 每 tick 向目标靠近的速度（0~1），越大越快
+    private static final float INTENSITY_STEP_IN  = 0.18f; // 进入领域变强速度
+    private static final float INTENSITY_STEP_OUT = 0.12f; // 退出领域变弱速度
+    private static final float FLASH_DECAY = 0.10f;        // 每 tick 闪红衰减
+
+    // 画面风格参数（你想要图二那种就用这些）
+    private static final float EDGE_STRENGTH_MAX = 1.05f; // 红边强度（0.6~1.5 都行）
+    private static final float VIGNETTE_MAX = 0.45f;      // 暗角强度（0.3~0.6）
 
     public static void tick(Minecraft mc, boolean inDomain) {
         if (mc == null || mc.level == null) return;
 
-        // ===== 进入边沿：闪一下 =====
+        // 进入领域瞬间闪一下
         if (!lastInDomain && inDomain) {
             flash = 1.0f;
         }
         lastInDomain = inDomain;
 
-        // ===== 确保 effect 存在（视角切换/资源重载可能让它变 null）=====
         ShaderGroup cur = getPostShaderGroup(mc);
 
-        if (inDomain) {
+        // 需要开 shader：进领域 或者 还在淡出阶段
+        boolean needShader = inDomain || intensity > 0.01f || flash > 0.01f;
+
+        if (needShader) {
             if (!shaderOn || cur == null) {
                 mc.gameRenderer.loadEffect(DOMAIN_POST);
                 shaderOn = true;
-                // 刚 load 完这一帧可能还拿不到 group，下面会再尝试一次
-                flash = 1.0f;
+                cur = getPostShaderGroup(mc);
             }
         } else {
             if (shaderOn) {
                 mc.gameRenderer.shutdownEffect();
                 shaderOn = false;
             }
+            return;
         }
 
-        // ===== 强度（朴素版：领域内直接 1，外面 0；也给你留了 lerp）=====
+        // ===== 强度平滑趋近 =====
         float target = inDomain ? 1.0f : 0.0f;
-        intensity += (target - intensity) * INTENSITY_LERP;
+        float step = inDomain ? INTENSITY_STEP_IN : INTENSITY_STEP_OUT;
+        intensity = approach(intensity, target, step);
 
-        // ===== 再取一次（loadEffect 后可能这次就拿到了）=====
-        cur = getPostShaderGroup(mc);
+        // flash 衰减
+        flash = clamp(flash - FLASH_DECAY, 0f, 1f);
 
-        // ===== 写 uniform =====
+        // ===== 喂 uniform =====
         if (shaderOn && cur != null) {
             setUniform(cur, "Intensity", intensity);
             setUniform(cur, "Flash", flash);
-        }
 
-        // ===== 最后衰减 flash（让它真的是“闪一下”）=====
-        flash = Math.max(0f, flash - FLASH_DECAY);
+            // 这两个是我给你新增的（domain.fsh 里有）
+            setUniform(cur, "EdgeStrength", EDGE_STRENGTH_MAX);
+            setUniform(cur, "Vignette", VIGNETTE_MAX);
+        }
     }
 
-    /** 从 GameRenderer 里抓当前的 ShaderGroup（最朴素反射） */
+    private static float approach(float cur, float target, float step) {
+        // step=0.18 => 每 tick 走 18% 的差值，不会越界
+        return cur + (target - cur) * clamp(step, 0f, 1f);
+    }
+
+    private static float clamp(float v, float min, float max) {
+        return v < min ? min : (v > max ? max : v);
+    }
+
     private static ShaderGroup getPostShaderGroup(Minecraft mc) {
         Object gr = mc.gameRenderer;
         if (gr == null) return null;
@@ -90,14 +109,12 @@ public final class DomainShader {
         return null;
     }
 
-    /** 给 ShaderGroup 的所有 pass 写 uniform（RotP 里也是这么拿 passes 的） */
     private static void setUniform(ShaderGroup group, String name, float v) {
         List<Shader> passes = ClientReflection.getShaderGroupPasses(group);
         if (passes == null) return;
 
         for (Shader pass : passes) {
             try {
-                // 1.16.5：pass.getEffect() 是 ShaderInstance，uniform 在它里面
                 ShaderUniform u = pass.getEffect().getUniform(name);
                 if (u != null) u.set(v);
             } catch (Throwable ignored) {}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.rotpaddon.exampleaddon.AddonMain;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = Bus.FORGE, modid = "myrotpaddon")
+@EventBusSubscriber(value = Dist.CLIENT, bus = Bus.FORGE, modid = AddonMain.MOD_ID)
 public final class DomainClientState {
 
     private DomainClientState() {}
