@@ -30,6 +30,9 @@ public class InitSounds {
     public static final Supplier<SoundEvent> DEMON_STAND_PUNCH_HEAVY = ModSounds.STAND_PUNCH_HEAVY;
     
     public static final Supplier<SoundEvent> DEMON_STAND_PUNCH_BARRAGE = ModSounds.STAND_PUNCH_LIGHT;
+
+    public static final Supplier<SoundEvent> DEMON_STAND_FREEZE = SOUNDS.register("freeze",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "freeze")));
     
     public static final Supplier<SoundEvent> DEMON_STAND_START_DOMAIN = SOUNDS.register("domain_expand",
                 () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "domain_expand")));

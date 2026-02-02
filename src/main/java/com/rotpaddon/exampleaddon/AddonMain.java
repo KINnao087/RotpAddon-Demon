@@ -2,6 +2,7 @@ package com.rotpaddon.exampleaddon;
 
 import com.rotpaddon.exampleaddon.action.domain.network.DomainNetwork;
 
+import com.rotpaddon.exampleaddon.action.freeze.network.FreezeNetwork;
 import com.rotpaddon.exampleaddon.init.InitEntities;
 import com.rotpaddon.exampleaddon.init.InitSounds;
 import com.rotpaddon.exampleaddon.init.InitStands;
@@ -29,5 +30,6 @@ public class AddonMain {
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
         DomainNetwork.init();
+        FreezeNetwork.init();
     }
 }

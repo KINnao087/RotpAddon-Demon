@@ -37,11 +37,14 @@ public final class DomainShader {
     public static void tick(Minecraft mc, boolean inDomain) {
         if (mc == null || mc.level == null) return;
 
+
         // 进入领域瞬间闪一下
         if (!lastInDomain && inDomain) {
             flash = 1.0f;
+//            System.out.println("lastInDomain = " + lastInDomain + ", inDomain = " + inDomain);
         }
         lastInDomain = inDomain;
+//        System.out.println("[THEN]   lastInDomain = " + lastInDomain + ", inDomain = " + inDomain);
 
         ShaderGroup cur = getPostShaderGroup(mc);
 

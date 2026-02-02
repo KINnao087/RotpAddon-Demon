@@ -1,5 +1,6 @@
 package com.rotpaddon.exampleaddon.action.domain.network;
 
+import com.rotpaddon.exampleaddon.AddonMain;
 import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CAddDomainPacket;
 import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CForceCloseDomainPacket;
 
@@ -33,7 +34,7 @@ public final class DomainNetwork {
         if (CHANNEL != null) return;
 
         CHANNEL = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation("myrotpaddon", "domain"),
+                new ResourceLocation(AddonMain.MOD_ID, "domain"),
                 () -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals);
 
         CHANNEL.registerMessage(id++, S2CAddDomainPacket.class,

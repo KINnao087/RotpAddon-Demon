@@ -13,6 +13,7 @@ import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CAddDomainPacke
 
 import com.rotpaddon.exampleaddon.init.InitSounds;
 import com.rotpaddon.exampleaddon.utils.ClientUtils;
+import com.rotpaddon.exampleaddon.utils.ServerUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -110,7 +111,6 @@ public class StandDomainAction extends StandEntityAction {
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
         if (world.isClientSide()) {
-            ClientUtils.playSound(InitSounds.DEMON_STAND_START_DOMAIN.get(), 1.0f);
             return;
         }
 
@@ -144,12 +144,15 @@ public class StandDomainAction extends StandEntityAction {
     }
 
     private static final int EFFECT_DURATION = 50;
+    private static final int DAMAGE_INTERVAL_TICKS = 20;
+    private static final float DAMAGE_AMOUNT = 2.0F;
     public static void handleDomainEffects(World world, Vector3d center, float r, LivingEntity caster) {
         if (world.isClientSide()) {return;}
         AxisAlignedBB box = new AxisAlignedBB(center, center).inflate(r);
 
         List<LivingEntity> entityList = world.getEntitiesOfClass(LivingEntity.class, box, e -> e.isAlive());
 
+        boolean doDamage = (world.getGameTime() % DAMAGE_INTERVAL_TICKS) == 0;
 
         for (LivingEntity entity : entityList) {
             if(entity.equals(caster)) {
@@ -163,12 +166,16 @@ public class StandDomainAction extends StandEntityAction {
                 entity.addEffect(new EffectInstance(Effects.SATURATION, EFFECT_DURATION, 0));
                 continue;
             }
-            entity.addEffect(new EffectInstance(Effects.WITHER, EFFECT_DURATION, 1));
             entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, EFFECT_DURATION, 0));
             entity.addEffect(new EffectInstance(Effects.HUNGER, EFFECT_DURATION, 0));
             entity.addEffect(new EffectInstance(Effects.BLINDNESS, EFFECT_DURATION, 0));
+            if (doDamage) {
+                entity.hurt(ServerUtils.getCasterDamageSource(caster), DAMAGE_AMOUNT);
+            }
         }
     }
+
+
 
     @Override
     protected boolean standKeepsTarget(ActionTarget target) {

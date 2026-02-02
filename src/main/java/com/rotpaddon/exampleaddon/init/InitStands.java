@@ -14,6 +14,7 @@ import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.rotpaddon.exampleaddon.AddonMain;
 import com.rotpaddon.exampleaddon.action.domain.StandDomainAction;
 import com.rotpaddon.exampleaddon.action.domain.StandDomainClose;
+import com.rotpaddon.exampleaddon.action.freeze.FreezeAction;
 import com.rotpaddon.exampleaddon.entity.DemonStandEntity;
 
 import net.minecraftforge.fml.RegistryObject;
@@ -60,8 +61,8 @@ public class InitStands {
                     .staminaCostTick(75F)
                     .standPose(StandPose.RANGED_ATTACK)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
-//                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN)
-                    .resolveLevelToUnlock(2)
+                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
+                    .resolveLevelToUnlock(5)
                     .holdToFire(40, false)));
     public static final RegistryObject<StandEntityAction> DEMON_STAND_DOMAIN_CLOSE = ACTIONS.register("domain_close",
             () -> new StandDomainClose(new StandEntityAction.Builder()
@@ -69,6 +70,17 @@ public class InitStands {
     
     public static final RegistryObject<StandEntityAction> DEMON_STAND_BLOCK = ACTIONS.register("demon_stand_block",
             () -> new StandEntityBlock());
+
+    public static final RegistryObject<StandEntityAction> DEMON_STAND_FREEZE = ACTIONS.register("demon_stand_freeze",
+            () -> new FreezeAction(new FreezeAction.Builder()
+                    .freezeParams(10, 5.5F, 180, 5)
+                    .cooldown(250)
+                    .standPose(StandPose.RANGED_ATTACK)
+                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_FREEZE).standPerformDuration(25)
+                    .holdToFire(5, false)
+                    .resolveLevelToUnlock(2)
+                    .staminaCost(55F)
+            ));
 
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
@@ -84,7 +96,8 @@ public class InitStands {
                         )
                 .rightClickHotbar(
                         DEMON_STAND_BLOCK.get(),
-                        DEMON_STAND_DOMAIN.get()
+                        DEMON_STAND_DOMAIN.get(),
+                        DEMON_STAND_FREEZE.get()
                         )
                 .defaultStats(StandStats.class, new StandStats.Builder()
                         .tier(6)

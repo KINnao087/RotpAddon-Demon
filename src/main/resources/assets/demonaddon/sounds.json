@@ -1,6 +1,11 @@
 {
   "domain_expand": {
-    "subtitle": "myrotpaddon.subtitle.domain_expand.name",
-    "sounds": [ "myrotpaddon:domain_expand" ]
+    "subtitle": "demonaddon.subtitle.domain_expand.name",
+    "sounds": [ "demonaddon:domain_expand" ]
+  },
+
+  "freeze": {
+    "subtitle": "demonaddon.subtitle.freeze.name",
+    "sounds": [ "demonaddon:freeze" ]
   }
 }
