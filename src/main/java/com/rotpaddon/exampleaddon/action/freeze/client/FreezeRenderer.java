@@ -49,7 +49,7 @@ public final class FreezeRenderer {
         RenderSystem.enableCull();
         GL11.glCullFace(camInside ? GL11.GL_FRONT : GL11.GL_BACK);
 
-        RenderSystem.enableDepthTest();
+        RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
 
         RenderSystem.disableTexture();
@@ -112,6 +112,7 @@ public final class FreezeRenderer {
         GL11.glCullFace(GL11.GL_BACK);
         RenderSystem.disableCull();
         RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
 
         ms.popPose();
     }

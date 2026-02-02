@@ -15,6 +15,7 @@ import com.rotpaddon.exampleaddon.AddonMain;
 import com.rotpaddon.exampleaddon.action.domain.StandDomainAction;
 import com.rotpaddon.exampleaddon.action.domain.StandDomainClose;
 import com.rotpaddon.exampleaddon.action.freeze.FreezeAction;
+import com.rotpaddon.exampleaddon.client.render.model.DemonStandModel;
 import com.rotpaddon.exampleaddon.entity.DemonStandEntity;
 
 import net.minecraftforge.fml.RegistryObject;
@@ -59,7 +60,7 @@ public class InitStands {
             () -> new StandDomainAction(new StandDomainAction.Builder()
                     .cooldown(360)
                     .staminaCostTick(75F)
-                    .standPose(StandPose.RANGED_ATTACK)
+                    .standPose(DemonStandModel.CHARGE_BURST)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
                     .resolveLevelToUnlock(5)
