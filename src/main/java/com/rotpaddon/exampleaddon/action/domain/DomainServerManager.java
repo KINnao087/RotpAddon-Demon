@@ -2,6 +2,8 @@ package com.rotpaddon.exampleaddon.action.domain;
 
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
+import com.rotpaddon.exampleaddon.action.domain.network.DomainNetwork;
+import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CForceCloseDomainPacket;
 import com.rotpaddon.exampleaddon.init.InitStands;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -9,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -77,7 +80,14 @@ public class DomainServerManager {
             if (r <= 0.1f) continue;
 
             StandDomainAction.handleDomainEffects(world, d.center, r, caster);
-            power.consumeStamina(open.getStaminaCostPerTick(power));
+            if (!power.consumeStamina(open.getStaminaCostTicking(power))) {
+                LivingEntity user = power.getUser();
+                DomainNetwork.CHANNEL.send(
+                        PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> user),
+                        new S2CForceCloseDomainPacket(user.getUUID(), nowTick)
+                );
+                it.remove();
+            }
         }
     }
 

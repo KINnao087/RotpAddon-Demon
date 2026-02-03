@@ -10,10 +10,11 @@ import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.rotpaddon.exampleaddon.action.domain.beans.DomainInstance;
 import com.rotpaddon.exampleaddon.action.domain.network.DomainNetwork;
 import com.rotpaddon.exampleaddon.action.domain.network.packet.S2CAddDomainPacket;
-
 import com.rotpaddon.exampleaddon.init.InitSounds;
 import com.rotpaddon.exampleaddon.utils.ClientUtils;
 import com.rotpaddon.exampleaddon.utils.ServerUtils;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -22,6 +23,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.List;
@@ -104,7 +106,8 @@ public class StandDomainAction extends StandEntityAction {
         return this.staminaCost;
     }
 
-    public float getStaminaCostPerTick(IStandPower power) {
+    @Override
+    public float getStaminaCostTicking(IStandPower power) {
         return this.staminaCostPerTick * power.getMaxStamina();
     }
 
@@ -133,6 +136,7 @@ public class StandDomainAction extends StandEntityAction {
                 user.getUUID());
 
         DomainServerManager.addDomain(inst);
+//        spawnDomainBurst(world, pos, inst.maxRadius);
 
         DomainNetwork.CHANNEL.send(
                 PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> user),
@@ -180,6 +184,60 @@ public class StandDomainAction extends StandEntityAction {
     @Override
     protected boolean standKeepsTarget(ActionTarget target) {
         return true;
+    }
+
+    private static void spawnDomainBurst(World world, Vector3d center, float radius) {
+        if (!(world instanceof ServerWorld)) return;
+        ServerWorld sw = (ServerWorld) world;
+        RedstoneParticleData redDust = new RedstoneParticleData(1.0F, 0.0F, 0.0F, 1.2F);
+
+        // 粒子从中心点生成，然后按速度向四周爆散。
+        int count = Math.max(120, (int) (radius * 10.0f));
+        double spawnY = center.y + 1.0;
+
+        for (int i = 0; i < count; i++) {
+            double dx = world.random.nextGaussian();
+            double dy = world.random.nextGaussian() * 0.75 + 0.15; // 略向上扬
+            double dz = world.random.nextGaussian();
+            double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (len < 1.0e-4) continue;
+
+            dx /= len;
+            dy /= len;
+            dz /= len;
+
+            // TNT-like burst: high initial velocity, large outward travel.
+            double speed = 1.15 + world.random.nextDouble() * 1.45;
+            if (world.random.nextFloat() < 0.18f) {
+                speed *= 1.25; // 少量更高速碎片
+            }
+
+            // 所有粒子从同一中心点爆开，靠速度向外散
+            double px = center.x;
+            double py = spawnY;
+            double pz = center.z;
+
+            // count=0 时，dx/dy/dz 会作为定向速度传到客户端，轨迹可控。
+            sw.sendParticles(
+                    redDust,
+                    px, py, pz,
+                    0,
+                    dx * speed, dy * speed, dz * speed,
+                    1.0
+            );
+
+            // 少量烟花粒子做炸裂感（这个粒子本身颜色不可控）。
+            if (world.random.nextFloat() < 0.25f) {
+                double spark = speed * (0.9 + world.random.nextDouble() * 0.5);
+                sw.sendParticles(
+                        ParticleTypes.FIREWORK,
+                        px, py, pz,
+                        1,
+                        dx * spark, dy * spark, dz * spark,
+                        0.0
+                );
+            }
+        }
     }
 
     public static class Builder extends StandEntityAction.AbstractBuilder<Builder> {

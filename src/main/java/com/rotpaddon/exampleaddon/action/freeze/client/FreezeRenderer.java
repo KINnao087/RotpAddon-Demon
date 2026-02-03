@@ -49,7 +49,8 @@ public final class FreezeRenderer {
         RenderSystem.enableCull();
         GL11.glCullFace(camInside ? GL11.GL_FRONT : GL11.GL_BACK);
 
-        RenderSystem.disableDepthTest();
+        if (isInside(cameraPos, center, radius)) RenderSystem.disableDepthTest();
+        else RenderSystem.enableDepthTest();
         RenderSystem.depthMask(false);
 
         RenderSystem.disableTexture();
@@ -125,5 +126,9 @@ public final class FreezeRenderer {
 
     private static int clamp255(int v) {
         return v < 0 ? 0 : Math.min(v, 255);
+    }
+
+    private static boolean isInside(Vector3d camPos, Vector3d rPos, float radius) {
+        return camPos.distanceTo(rPos) <= radius;
     }
 }

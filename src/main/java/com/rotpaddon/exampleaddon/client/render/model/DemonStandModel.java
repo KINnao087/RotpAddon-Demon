@@ -59,52 +59,6 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
                         new RotationAngle(rightForeArm, 0.0F, 0.0F, 0.0F)
                 }))
                 .build(idlePose));
-
-		actionAnim.put(CHARGE_BURST, new PosedActionAnimation.Builder<DemonStandEntity>()
-
-				// ① 按住蓄力：全身蜷缩（收手收脚、身体前倾）
-				.addPose(StandEntityAction.Phase.BUTTON_HOLD, new ModelPose<>(new RotationAngle[] {
-						// 身体略前倾 + 微收
-						new RotationAngle(body,  0.55F, 0.0F, 0.0F),
-
-						// 头也稍微低一点（如果你有 head）
-						new RotationAngle(head,  0.35F, 0.0F, 0.0F),
-
-						// 双臂收回胸前（上臂抬起内扣，前臂折叠）
-						new RotationAngle(leftArm,      -0.90F, 0.20F, -0.90F),
-						new RotationAngle(leftForeArm,  -0.90F, 0.0F,   0.70F),
-						new RotationAngle(rightArm,     -0.90F,-0.20F,  0.90F),
-						new RotationAngle(rightForeArm, -0.90F, 0.0F,  -0.70F),
-
-						// 双腿蜷（大腿抬、膝盖折）——字段名按你自己的来
-						new RotationAngle(leftLeg,       0.85F, 0.15F, 0.0F),
-						new RotationAngle(leftLowerLeg,  1.05F, 0.0F,  0.0F),
-						new RotationAngle(rightLeg,      0.85F,-0.15F, 0.0F),
-						new RotationAngle(rightLowerLeg, 1.05F, 0.0F,  0.0F),
-				}))
-
-				// ② 释放瞬间：四肢展开“大”字（手水平张开、腿分开、身体立起来）
-				.addPose(StandEntityAction.Phase.PERFORM, new ModelPose<>(new RotationAngle[] {
-						// 身体回正
-						new RotationAngle(body,  0.0F, 0.0F, 0.0F),
-						new RotationAngle(head,  0.0F, 0.0F, 0.0F),
-
-						// 手臂展开：近似水平张开（±90° roll / 或 yaw，视你模型轴向）
-						// 这套是比较“横向展开”的感觉，你如果发现方向不对，就把 Z 改成 Y（或相反）
-						new RotationAngle(leftArm,       0.0F, 0.0F, -1.5708F),
-						new RotationAngle(leftForeArm,   0.0F, 0.0F,  0.0F),
-						new RotationAngle(rightArm,      0.0F, 0.0F,  1.5708F),
-						new RotationAngle(rightForeArm,  0.0F, 0.0F,  0.0F),
-
-						// 腿分开（像大字站）：大腿外展一点
-						new RotationAngle(leftLeg,       0.0F, 0.0F, -0.55F),
-						new RotationAngle(leftLowerLeg,  0.0F, 0.0F,  0.0F),
-						new RotationAngle(rightLeg,      0.0F, 0.0F,  0.55F),
-						new RotationAngle(rightLowerLeg, 0.0F, 0.0F,  0.0F),
-				}))
-
-				.build(idlePose));
-        super.initActionPoses();
     }
 
     @Override
@@ -162,7 +116,7 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 	private ModelRenderer rightKnee;
 
 	public DemonStandModel() {
-        super(64, 64);
+        super();
 		addHumanoidBaseBoxes(null);
 		texWidth = 128;
 		texHeight = 128;
