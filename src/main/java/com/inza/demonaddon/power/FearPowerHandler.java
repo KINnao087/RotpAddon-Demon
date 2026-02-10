@@ -7,6 +7,7 @@ import com.inza.demonaddon.network.packet.S2CFearSyncPacket;
 import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.TickEvent;
@@ -36,6 +37,8 @@ public class FearPowerHandler {
                 float before = fear.getFear();
                 fear.addFear(5f);
 
+                if (!MyUtils.hasMyStand(owner)) {return;}
+
                 AddonNetwork.CHANNEL.send(
                         PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) owner),
                         new S2CFearSyncPacket(fear.getFear(), fear.getMaxFear())
@@ -44,8 +47,12 @@ public class FearPowerHandler {
             return;
         }
 
+//        if (!(attacker instanceof PlayerEntity)) {return;}
+        if (!MyUtils.hasMyStand(attacker)) return;
         MyUtils.getFearCap((LivingEntity) attacker).ifPresent(fear -> {
             fear.addFear(5f);
+
+            if (!(attacker instanceof ServerPlayerEntity)) {return;}
 
             AddonNetwork.CHANNEL.send(
                     PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) attacker),
@@ -58,6 +65,8 @@ public class FearPowerHandler {
     public static void onLivingTick(LivingEvent.LivingUpdateEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (entity.level.isClientSide()) return;
+//        if (!(entity instanceof PlayerEntity)) return;
+        if (!MyUtils.hasMyStand(entity)) return;
 
         MyUtils.getFearCap(entity).ifPresent(fear -> {
 //            System.out.println("fearCostPertick = " + fear.getFearCostPerTick());
@@ -66,7 +75,7 @@ public class FearPowerHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public static void onPlayerRenderGUITick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         if (!(event.player instanceof ServerPlayerEntity)) return;
 

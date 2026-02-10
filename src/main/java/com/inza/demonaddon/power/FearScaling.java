@@ -18,15 +18,15 @@ public final class FearScaling {
         // Example curve: higher fear => weaker.
         switch (stat) {
             case DAMAGE:
-                return lerp(0.5, 1.25, t);
+                return lerp(1, 1.55, t);
             case SPEED:
-                return lerp(0.5, 1.25, t);
+                return lerp(1, 1.55, t);
             case KNOCKBACK:
                 return lerp(1.00, 1.00, t);
             case DURABILITY:
-                return lerp(0.5, 1.25, t);
+                return lerp(1, 1.55, t);
             case PRECISION:
-                return lerp(0.5, 1.25, t);
+                return lerp(1, 1.55, t);
             default:
                 return 1.0;
         }

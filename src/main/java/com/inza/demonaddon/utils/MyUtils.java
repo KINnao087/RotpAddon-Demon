@@ -5,6 +5,7 @@ import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.inza.demonaddon.AddonMain;
 import com.inza.demonaddon.power.FearPower;
 import com.inza.demonaddon.power.FearPowerProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,14 +17,15 @@ public class MyUtils {
 
     private MyUtils() {}
 
-    public static StandType<?> getStandType(PlayerEntity player) {
-        IStandPower sp = IStandPower.getPlayerStandPower(player);
+    public static StandType<?> getStandType(LivingEntity player) {
+        IStandPower sp = IStandPower.getStandPowerOptional(player).orElse(null);
         if (sp == null || !sp.hasPower()) return null;
         return sp.getType();
     }
 
-    public static boolean hasMyStand(PlayerEntity player) {
-        StandType<?> type = getStandType(player);
+    public static boolean hasMyStand(Entity player) {
+        if ((player instanceof LivingEntity)) return false;
+        StandType<?> type = getStandType((LivingEntity) player);
         if (type == null) return false;
 
         ResourceLocation id = type.getRegistryName();
