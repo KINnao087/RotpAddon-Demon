@@ -16,9 +16,9 @@ public final class FreezeRenderer {
     public static int LAT = 48;
     public static int LON = 72;
 
-    public static int TINT_R = 220;
-    public static int TINT_G = 25;
-    public static int TINT_B = 25;
+    public static int TINT_R = 255;
+    public static int TINT_G = 50;
+    public static int TINT_B = 50;
 
     /**
      * 画一个“偏色反色球壳”（只靠 blend）：

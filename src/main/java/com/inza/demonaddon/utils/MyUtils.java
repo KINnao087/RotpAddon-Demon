@@ -24,7 +24,7 @@ public class MyUtils {
     }
 
     public static boolean hasMyStand(Entity player) {
-        if ((player instanceof LivingEntity)) return false;
+        if (!(player instanceof LivingEntity)) return false;
         StandType<?> type = getStandType((LivingEntity) player);
         if (type == null) return false;
 
