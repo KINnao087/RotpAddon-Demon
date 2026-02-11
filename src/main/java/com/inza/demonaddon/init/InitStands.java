@@ -58,12 +58,14 @@ public class InitStands {
     public static final RegistryObject<StandDomainAction> DEMON_STAND_DOMAIN = ACTIONS.register("domain",
             () -> new StandDomainAction(new StandDomainAction.Builder()
                     .cooldown(360)
-                    .staminaCostTick(75F)
-                    .standPose(DemonStandModel.CHARGE_BURST)
+                    .staminaCostPerTick(0F).staminaCost(0F)
+                    .standPose(InitStandPoses.CHARGE_BURST)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
                     .resolveLevelToUnlock(5)
-                    .fearCostPerTick(0.1f)
+                    .fearCostPerTick(1f).domainMaxTicks(1000000, 1000000)
+                    .standPerformDuration(StandDomainAction.EXPAND_TICK + 10)
+                    .standRecoveryTicks(8)
                     .holdToFire(40, false)));
     public static final RegistryObject<StandEntityAction> DEMON_STAND_DOMAIN_CLOSE = ACTIONS.register("domain_close",
             () -> new StandDomainClose(new StandEntityAction.Builder()
@@ -113,7 +115,7 @@ public class InitStands {
                 .build(),
                 
                 InitEntities.ENTITIES,
-                () -> new StandEntityType<DemonStandEntity>(DemonStandEntity::new, 0.7F, 2.1F)
+                () -> new StandEntityType<DemonStandEntity>(DemonStandEntity::new, 0.7F * 1.1F, 2.1F * 1.1F)
                 .summonSound(InitSounds.DEMON_STAND_SUMMON_SOUND)
                 .unsummonSound(InitSounds.DEMON_STAND_UNSUMMON_SOUND))
         .withDefaultStandAttributes();

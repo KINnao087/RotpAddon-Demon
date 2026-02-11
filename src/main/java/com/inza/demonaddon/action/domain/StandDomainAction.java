@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class StandDomainAction extends StandEntityAction {
-    private static final int EXPAND_TICK = 10;
-    private static final int CLOSE_TICK = 5;
+    public static final int EXPAND_TICK = 10;
+    public static final int CLOSE_TICK = 5;
 
     @ActionConfigField private final int domainMaxTicks;
     @ActionConfigField private final int domainMaxTicksZombie;
@@ -150,16 +150,16 @@ public class StandDomainAction extends StandEntityAction {
 
         int durationTicks = getDomainMaxTicks(userPower);
         userPower.setCooldownTimer(this, durationTicks);
-        MyUtils.getFearCap(user).ifPresent(fear -> {
-            fear.addFearCostPerTick(getFearCostPerTick());
-        });
+//        MyUtils.getFearCap(user).ifPresent(fear -> {
+//            fear.addFearCostPerTick(getFearCostPerTick());
+//        });
     }
 
     public static void onActionClose(int realCd, IStandPower power) {
         power.setCooldownTimer((StandDomainAction) InitStands.DEMON_STAND_DOMAIN.get(), realCd);
-        MyUtils.getFearCap(power.getUser()).ifPresent(fear -> {
-            fear.subFearCostPerTick(InitStands.DEMON_STAND_DOMAIN.get().getFearCostPerTick());
-        });
+//        MyUtils.getFearCap(power.getUser()).ifPresent(fear -> {
+//            fear.subFearCostPerTick(InitStands.DEMON_STAND_DOMAIN.get().getFearCostPerTick());
+//        });
     }
 
     private static final int EFFECT_DURATION = 50;

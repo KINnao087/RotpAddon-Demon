@@ -1,6 +1,7 @@
 package com.inza.demonaddon.action.domain.beans;
 import java.util.UUID;
 
+import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 
@@ -76,14 +77,43 @@ public class DomainInstance {
         return closeRadius(nowTick, normalCloseStart, maxRadius);
     }
 
+    public float currentAlphaFactor(float nowTick) {
+        if (forcedClosing) {
+            return 1F - closeProgress(nowTick, closeStartTick);
+        }
+
+        float elapsed = nowTick - startTick;
+        if (elapsed < 0) elapsed = 0;
+
+        // expand: fade in
+        if (elapsed < (long) durationTicks) {
+            if (durationTicks <= 0) return 1F;
+            float t = (float) elapsed / (float) durationTicks;
+            return 1.0F - (float) Math.pow(1.0F - t, 3.0);
+        }
+
+        // maintain: keep fully visible
+        if (elapsed < (long) durationTicks + (long) keepTicks) {
+            return 1F;
+        }
+
+        // close: fade out
+        long normalCloseStart = startTick + (long) durationTicks + (long) keepTicks;
+        return 1F - closeProgress(nowTick, normalCloseStart);
+    }
+
     private float closeRadius(float nowTick, float startCloseTick, float startRadius) {
         if (closeTicks <= 0) return 0F;
+        float s = closeProgress(nowTick, startCloseTick);
+        return startRadius * (1F - s);
+    }
+
+    private float closeProgress(float nowTick, float startCloseTick) {
+        if (closeTicks <= 0) return 1F;
         float t = (float) (nowTick - startCloseTick) / (float) closeTicks; // 0..1
         t = MathHelper.clamp(t, 0F, 1F);
-
         // smootherstep
-        float s = t * t * t * (t * (t * 6F - 15F) + 10F);
-        return startRadius * (1F - s);
+        return t * t * t * (t * (t * 6F - 15F) + 10F);
     }
 
     public long usedTicks(long nowTick) {

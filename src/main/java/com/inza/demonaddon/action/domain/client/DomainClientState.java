@@ -96,13 +96,23 @@ public final class DomainClientState {
         for (DomainInstance d : DOMAINS) {
             float r = d.currentRadius(nowTickF);
             if (r <= 0.001F) continue;
+            float alphaFactor = d.currentAlphaFactor(nowTickF);
+            if (alphaFactor <= 0.001F) continue;
 
-//             black ball
+            int redAlpha = clamp255(Math.round(220F * alphaFactor));
+            int blackAlpha = clamp255(Math.round(255F * alphaFactor));
+
+            // expand -> alpha up, close -> alpha down
             DomainRenderer.renderSolidSphere(event.getMatrixStack(), camPos, d.center, r - 0.1f,
-                    255, 0, 0, 255);
+                    255, 0, 0, redAlpha);
             DomainRenderer.renderSolidSphere(event.getMatrixStack(), camPos, d.center, r,
-                    0, 0, 0, 255);
+                    0, 0, 0, blackAlpha);
 
         }
+    }
+
+    private static int clamp255(int value) {
+        if (value < 0) return 0;
+        return Math.min(value, 255);
     }
 }

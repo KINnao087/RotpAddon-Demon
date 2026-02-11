@@ -5,6 +5,7 @@ import com.inza.demonaddon.action.domain.beans.DomainInstance;
 import com.inza.demonaddon.network.AddonNetwork;
 import com.inza.demonaddon.network.packet.S2CForceCloseDomainPacket;
 import com.inza.demonaddon.init.InitStands;
+import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
@@ -63,14 +64,19 @@ public class DomainServerManager {
                     System.out.println("domain force closed");
                 }
                 long usedTick = d.usedTicks(nowTick);
-                {
-                    long used = d.usedTicks(nowTick);
-                    int realCd = (int) Math.ceil(used * open.getDomainCooldownPerTick());
 
-                    if (caster.isCreative()) realCd = 0;
+                long used = d.usedTicks(nowTick);
+                int realCd = (int) Math.ceil(used * open.getDomainCooldownPerTick());
 
-                    StandDomainAction.onActionClose(realCd, power);
-                }
+                AddonNetwork.CHANNEL.send(
+                        PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> caster),
+                        new S2CForceCloseDomainPacket(caster.getUUID(), nowTick)
+                );
+
+                if (caster.isCreative()) realCd = 0;
+
+                StandDomainAction.onActionClose(realCd, power);
+
 
                 it.remove();
                 continue;
@@ -80,7 +86,7 @@ public class DomainServerManager {
             if (r <= 0.1f) continue;
 
             StandDomainAction.handleDomainEffects(world, d.center, r, caster);
-            if (!power.consumeStamina(open.getStaminaCostTicking(power))) {
+            if (!MyUtils.consumeFearPower(caster, InitStands.DEMON_STAND_DOMAIN.get().getFearCostPerTick())) {
                 LivingEntity user = power.getUser();
                 AddonNetwork.CHANNEL.send(
                         PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> user),

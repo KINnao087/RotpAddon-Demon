@@ -73,4 +73,13 @@ public class MyUtils {
     public static FearPower getFearPower(LivingEntity entity) {
         return getFearCap(entity).orElse(null);
     }
+
+    /**
+     * Attempts to consume fear from an entity.
+     * @return true if fear was successfully consumed, false if capability is missing or not enough fear.
+     */
+    public static boolean consumeFearPower(LivingEntity entity, float amount) {
+        FearPower fearPower = getFearPower(entity);
+        return fearPower != null && fearPower.consume(amount);
+    }
 }
