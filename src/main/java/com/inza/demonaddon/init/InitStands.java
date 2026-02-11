@@ -58,7 +58,7 @@ public class InitStands {
     public static final RegistryObject<StandDomainAction> DEMON_STAND_DOMAIN = ACTIONS.register("domain",
             () -> new StandDomainAction(new StandDomainAction.Builder()
                     .cooldown(360)
-                    .staminaCostPerTick(0F).staminaCost(0F)
+                    .staminaCostPerTick(0F).staminaCost(20F)
                     .standPose(InitStandPoses.CHARGE_BURST)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
@@ -82,7 +82,7 @@ public class InitStands {
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_FREEZE).standPerformDuration(25)
                     .holdToFire(5, false)
                     .resolveLevelToUnlock(2)
-                    .staminaCost(55F)
+                    .staminaCost(10F).fearCost(1).staminaCostPerTick(0)
             ));
 
 

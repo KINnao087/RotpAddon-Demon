@@ -9,6 +9,8 @@ import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.inza.demonaddon.action.domain.beans.DomainInstance;
 import com.inza.demonaddon.action.freeze.network.FreezeNetwork;
 import com.inza.demonaddon.action.freeze.network.packet.S2CAddFreezeDomainPacket;
+import com.inza.demonaddon.power.FearPower;
+import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -25,6 +27,8 @@ public class FreezeAction extends StandEntityAction {
     @ActionConfigField private final float staminaCost;        // 启动瞬时消耗（跟 DomainAction 一样直接返回）
     @ActionConfigField private final float staminaCostPerTick; // 每tick消耗（按 max stamina 缩放）
 
+    @ActionConfigField private final float fearCost;
+
     public FreezeAction(FreezeAction.Builder builder) {
         super(builder);
         this.expandTicks = builder.expandTicks;
@@ -34,6 +38,8 @@ public class FreezeAction extends StandEntityAction {
 
         this.staminaCost = builder.staminaCost;
         this.staminaCostPerTick = builder.staminaCostPerTick;
+
+        this.fearCost = builder.fearCost;
     }
 
     // ===== stamina =====
@@ -56,6 +62,11 @@ public class FreezeAction extends StandEntityAction {
 
     @Override
     public void standPerform(World world, StandEntity standEntity, IStandPower userPower, StandEntityTask task) {
+        FearPower fearPower = MyUtils.getFearPower(userPower.getUser());
+        if (fearPower == null) return;
+
+        if (fearPower.getFear() - fearCost < 0) return;
+
         // 只在服务端生成实例 + 广播给客户端
         if (world.isClientSide()) {
             return;
@@ -88,17 +99,15 @@ public class FreezeAction extends StandEntityAction {
                 user.getUUID()
         );
 
-        // ✅ 服务端真正冻结逻辑
         FreezeServerManager.addFreeze(world, renderInst, user);
 
-        // ✅ 广播给追踪玩家 + 自己（渲染用）
         FreezeNetwork.CHANNEL.send(
                 PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> user),
                 new S2CAddFreezeDomainPacket(renderInst)
         );
 
-        // 冷却（按持续时间走，跟 DomainAction 一样）
         userPower.setCooldownTimer(this, this.durationTicks);
+        fearPower.consume(fearCost);
     }
 
     // ===== builder =====
@@ -111,6 +120,8 @@ public class FreezeAction extends StandEntityAction {
 
         private float staminaCost = 0.02f;
         private float staminaCostPerTick = 0.01f;
+
+        private float fearCost = 0.02f;
 
         public Builder freezeParams(int expandTicks, float radiusBlocks, int durationTicks, int closeTicks) {
             this.expandTicks = Math.max(0, expandTicks);
@@ -147,6 +158,11 @@ public class FreezeAction extends StandEntityAction {
 
         public Builder staminaCostPerTick(float staminaCostPerTick) {
             this.staminaCostPerTick = staminaCostPerTick;
+            return getThis();
+        }
+
+        public Builder fearCost(float amount) {
+            this.fearCost = amount;
             return getThis();
         }
 
