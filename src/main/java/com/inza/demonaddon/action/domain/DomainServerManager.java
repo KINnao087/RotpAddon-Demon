@@ -5,11 +5,15 @@ import com.inza.demonaddon.action.domain.beans.DomainInstance;
 import com.inza.demonaddon.network.AddonNetwork;
 import com.inza.demonaddon.network.packet.S2CForceCloseDomainPacket;
 import com.inza.demonaddon.init.InitStands;
+import com.inza.demonaddon.utils.ClientUtils;
 import com.inza.demonaddon.utils.MyUtils;
+import com.inza.demonaddon.utils.ServerUtils;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -32,6 +36,18 @@ public class DomainServerManager {
         DomainInstance inst = DOMAINS.get(uuid);
         if (inst == null) return;
         inst.forceClose(nowTick);
+    }
+
+    @SubscribeEvent
+    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        PlayerEntity player = event.getPlayer();
+        IStandPower power = IStandPower.getStandPowerOptional(player).orElse(null);
+        power.setCooldownTimer(InitStands.DEMON_STAND_DOMAIN.get(), 0);
+        AddonNetwork.CHANNEL.send(
+                PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                new S2CForceCloseDomainPacket(player.getUUID(), ClientUtils.getNowTicks())
+        );
+        DomainServerManager.removeDomain(player.getUUID(), player.level.getGameTime());
     }
 
     @SubscribeEvent

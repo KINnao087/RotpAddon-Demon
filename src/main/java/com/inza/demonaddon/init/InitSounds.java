@@ -35,7 +35,10 @@ public class InitSounds {
     
     public static final Supplier<SoundEvent> DEMON_STAND_START_DOMAIN = SOUNDS.register("domain_expand",
                 () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "domain_expand")));
-    
+
+    public static final Supplier<SoundEvent> DEMON_STAND_BARRAGE = SOUNDS.register("barrage",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "barrage")));
+
     public static final OstSoundList DEMON_STAND_OST = new OstSoundList(
             new ResourceLocation(AddonMain.MOD_ID, "example_stand_ost"), SOUNDS);
 }

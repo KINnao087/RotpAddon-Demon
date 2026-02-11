@@ -15,7 +15,7 @@ import com.inza.demonaddon.AddonMain;
 import com.inza.demonaddon.action.domain.StandDomainAction;
 import com.inza.demonaddon.action.domain.StandDomainClose;
 import com.inza.demonaddon.action.freeze.FreezeAction;
-import com.inza.demonaddon.client.render.model.DemonStandModel;
+import com.inza.demonaddon.action.heartpiercingpunch.HeartPiercingPunchAction;
 import com.inza.demonaddon.entity.DemonStandEntity;
 
 import net.minecraftforge.fml.RegistryObject;
@@ -40,11 +40,20 @@ public class InitStands {
     
     public static final RegistryObject<StandEntityAction> DEMON_STAND_BARRAGE = ACTIONS.register("demon_stand_barrage",
             () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
+                    .standSound(InitSounds.DEMON_STAND_BARRAGE)
                     .barrageHitSound(InitSounds.DEMON_STAND_PUNCH_BARRAGE)));
 
     public static final RegistryObject<StandEntityHeavyAttack> DEMON_STAND_FINISHER_PUNCH = ACTIONS.register("demon_stand_finisher_punch",
             () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder() // TODO finisher ability
                     .punchSound(InitSounds.DEMON_STAND_PUNCH_HEAVY)
+                    .partsRequired(StandPart.ARMS)));
+
+    public static final RegistryObject<HeartPiercingPunchAction> DEMON_STAND_HEART_PIERCING_PUNCH = ACTIONS.register("demon_stand_heart_piercing_punch",
+            () -> new HeartPiercingPunchAction(new HeartPiercingPunchAction.Builder()
+                    .punchSound(InitSounds.DEMON_STAND_PUNCH_HEAVY)
+                    .standPose(StandPoses.HEART_PIERCING_PUNCH)
+                    .standPerformDuration(15)
+                    .holdToFire(20, true)
                     .partsRequired(StandPart.ARMS)));
 
     public static final RegistryObject<StandEntityHeavyAttack> DEMON_STAND_HEAVY_PUNCH = ACTIONS.register("demon_stand_heavy_punch",
@@ -59,7 +68,7 @@ public class InitStands {
             () -> new StandDomainAction(new StandDomainAction.Builder()
                     .cooldown(360)
                     .staminaCostPerTick(0F).staminaCost(20F)
-                    .standPose(InitStandPoses.CHARGE_BURST)
+                    .standPose(StandPoses.CHARGE_BURST)
                     .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
                     .resolveLevelToUnlock(5)
@@ -95,7 +104,8 @@ public class InitStands {
                 .storyPartName(ModStandsInit.PART_3_NAME)
                 .leftClickHotbar(
                         DEMON_STAND_PUNCH.get(),
-                        DEMON_STAND_BARRAGE.get()
+                        DEMON_STAND_BARRAGE.get(),
+                        DEMON_STAND_HEART_PIERCING_PUNCH.get()
                         )
                 .rightClickHotbar(
                         DEMON_STAND_BLOCK.get(),
@@ -115,7 +125,7 @@ public class InitStands {
                 .build(),
                 
                 InitEntities.ENTITIES,
-                () -> new StandEntityType<DemonStandEntity>(DemonStandEntity::new, 0.7F * 1.1F, 2.1F * 1.1F)
+                () -> new StandEntityType<DemonStandEntity>(DemonStandEntity::new, 0.7F * 1.01F, 2.1F * 1.01F)
                 .summonSound(InitSounds.DEMON_STAND_SUMMON_SOUND)
                 .unsummonSound(InitSounds.DEMON_STAND_UNSUMMON_SOUND))
         .withDefaultStandAttributes();

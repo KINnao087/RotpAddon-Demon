@@ -7,5 +7,10 @@
   "freeze": {
     "subtitle": "demonaddon.subtitle.freeze.name",
     "sounds": [ "demonaddon:freeze" ]
+  },
+
+  "barrage": {
+    "subtitle": "demonaddon.subtitle.barrage.name",
+    "sounds": [ "demonaddon:barrage" ]
   }
 }
