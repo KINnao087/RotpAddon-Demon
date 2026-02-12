@@ -1,7 +1,7 @@
 package com.inza.demonaddon.client;
 
 import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.client.render.renderer.DemonStandRenderer;
+import com.inza.demonaddon.client.render.dynamictexture.DynamicTextureRenderer;
 import com.inza.demonaddon.init.InitStands;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,6 +16,6 @@ public class ClientInit {
     @SubscribeEvent
     public static void onFMLClientSetup(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(
-                InitStands.STAND_DEMON_STAND.getEntityType(), DemonStandRenderer::new);
+                InitStands.STAND_DEMON_STAND.getEntityType(), DynamicTextureRenderer::new);
     }
 }

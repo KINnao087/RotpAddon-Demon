@@ -7,6 +7,7 @@ import com.inza.demonaddon.entity.DemonStandEntity;
 import com.inza.demonaddon.power.FearPower;
 import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class DynamicTextureRenderer extends StandEntityRenderer<DemonStandEntity, DemonStandModel> {
@@ -21,10 +22,21 @@ public class DynamicTextureRenderer extends StandEntityRenderer<DemonStandEntity
 
     @Override
     public ResourceLocation getTextureLocation(DemonStandEntity entity) {
-        FearPower fearPower = MyUtils.getFearPower(entity.getUser());
+        LivingEntity user = entity.getUser();
+        if (user == null) {
+            return TEX_0;
+        }
+
+        FearPower fearPower = MyUtils.getFearPower(user);
+        if (fearPower == null) {
+            return TEX_0;
+        }
+
         float fear = fearPower.getFear();
         float max = fearPower.getMaxFear();
         float t = max <= 0 ? 0f : (fear / max);
+        if (t < 0f) t = 0f;
+        if (t > 1f) t = 1f;
 
         if (t < 0.33f) return TEX_0;
         else if (t >= 0.33f && t <= 0.66f) return TEX_1;
