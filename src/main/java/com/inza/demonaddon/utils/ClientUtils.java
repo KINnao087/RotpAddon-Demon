@@ -5,6 +5,9 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -123,5 +126,15 @@ public class ClientUtils {
             case 9:      return 7; // W+A
             default:     return 0;
         }
+    }
+
+    public static LivingEntity findLivingByUuid(ClientWorld world, UUID uuid) {
+        // Scan loaded entities; cost is acceptable for typical radius-based effect
+        for (Entity e : world.entitiesForRendering()) {
+            if (e instanceof LivingEntity && uuid.equals(e.getUUID())) {
+                return (LivingEntity) e;
+            }
+        }
+        return null;
     }
 }

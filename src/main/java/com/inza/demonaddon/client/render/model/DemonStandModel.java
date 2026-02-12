@@ -87,7 +87,13 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 
 		final ModelPoseTransition<DemonStandEntity> performTransition =
 				new ModelPoseTransition<>(chargePose, burstPose)
-						.setEasing(DemonStandModel::burstToIdleEasing);
+						.setEasing(t -> {
+							if (t <= 0.1F) {
+								float x = t / 0.2F;          // 0..1
+								float u = 1.0F - x;
+								return 1.0F - u*u*u;         // ease-out to 1 fast
+							}
+							return 1.0F;});
 
 		final ModelPoseTransition<DemonStandEntity> burstToIdle =
 				new ModelPoseTransition<>(burstPose, idlePose)
@@ -104,15 +110,19 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 
 	private void initHeartPunchPose() {
 		ModelPose<DemonStandEntity> windup = new ModelPose<>(new RotationAngle[] {
-				new RotationAngle(body, 0.10068159F, 0.52140315F, 0.05027700F),
-				new RotationAngle(leftArm, -0.70610594F, 1.40502443F, -0.61186636F),
-				new RotationAngle(leftForeArm, -1.57079633F, 0.0F, 0.0F),
-				new RotationAngle(rightArm, 0.95993109F, 0.0F, 0.0F),
-				new RotationAngle(rightForeArm, -1.48352986F, 0.0F, 0.0F),
-				new RotationAngle(leftLeg, -0.34906585F, 0.0F, 0.0F),
-				new RotationAngle(rightLeg, 0.39269908F, 0.0F, 0.0F),
-				new RotationAngle(leftLowerLeg, 0.74176493F, 0.0F, 0.0F),
-				new RotationAngle(rightLowerLeg, 0.30543262F, 0.0F, 0.0F),
+				new RotationAngle(body,         0.10068159F,  0.52140315F,  0.05027700F),
+
+				new RotationAngle(leftArm,     -1.42374239F,  0.54155490F, -1.39352934F),
+				new RotationAngle(leftForeArm, -0.78539816F,  0.0F,        0.0F),
+
+				new RotationAngle(rightArm,     0.95993109F,  0.0F,        0.0F),
+				new RotationAngle(rightForeArm,-1.48352986F,  0.0F,        0.0F),
+
+				new RotationAngle(leftLeg,     -0.34906585F,  0.0F,        0.0F),
+				new RotationAngle(rightLeg,     0.39269908F,  0.0F,        0.0F),
+				new RotationAngle(leftLowerLeg, 0.74176493F,  0.0F,        0.0F),
+				new RotationAngle(rightLowerLeg,0.30543262F,  0.0F,        0.0F),
+
 		});
 
 		ModelPose<DemonStandEntity> hit = new ModelPose<>(new RotationAngle[] {

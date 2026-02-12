@@ -14,6 +14,7 @@ import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.inza.demonaddon.AddonMain;
 import com.inza.demonaddon.action.domain.StandDomainAction;
 import com.inza.demonaddon.action.domain.StandDomainClose;
+import com.inza.demonaddon.action.demonview.DemonViewAction;
 import com.inza.demonaddon.action.freeze.FreezeAction;
 import com.inza.demonaddon.action.heartpiercingpunch.HeartPiercingPunchAction;
 import com.inza.demonaddon.entity.DemonStandEntity;
@@ -36,11 +37,12 @@ public class InitStands {
 
     public static final RegistryObject<StandEntityAction> DEMON_STAND_PUNCH = ACTIONS.register("demon_stand_punch",
             () -> new StandEntityLightAttack(new StandEntityLightAttack.Builder()
-                    .punchSound(InitSounds.DEMON_STAND_PUNCH_LIGHT)));
+                    .punchSound(InitSounds.DEMON_STAND_PUNCH_LIGHT)
+            ));
     
     public static final RegistryObject<StandEntityAction> DEMON_STAND_BARRAGE = ACTIONS.register("demon_stand_barrage",
             () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
-                    .standSound(InitSounds.DEMON_STAND_BARRAGE)
+//                    .standSound(InitSounds.DEMON_STAND_BARRAGE)
                     .barrageHitSound(InitSounds.DEMON_STAND_PUNCH_BARRAGE)));
 
     public static final RegistryObject<StandEntityHeavyAttack> DEMON_STAND_FINISHER_PUNCH = ACTIONS.register("demon_stand_finisher_punch",
@@ -50,9 +52,9 @@ public class InitStands {
 
     public static final RegistryObject<HeartPiercingPunchAction> DEMON_STAND_HEART_PIERCING_PUNCH = ACTIONS.register("demon_stand_heart_piercing_punch",
             () -> new HeartPiercingPunchAction(new HeartPiercingPunchAction.Builder()
-                    .punchSound(InitSounds.DEMON_STAND_PUNCH_HEAVY)
                     .standPose(StandPoses.HEART_PIERCING_PUNCH)
                     .standPerformDuration(15)
+                    .punchSound(InitSounds.DEMON_STAND_BLOOD_PUNCH)
                     .holdToFire(20, true)
                     .partsRequired(StandPart.ARMS)));
 
@@ -69,13 +71,13 @@ public class InitStands {
                     .cooldown(360)
                     .staminaCostPerTick(0F).staminaCost(20F)
                     .standPose(StandPoses.CHARGE_BURST)
-                    .standSound(StandEntityAction.Phase.BUTTON_HOLD, ModSounds.STAND_SUMMON_DEFAULT)
-                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN).standPerformDuration(40)
+                    .standSound(StandEntityAction.Phase.BUTTON_HOLD, InitSounds.DOMAIN_WINDUP)
+                    .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_START_DOMAIN)
                     .resolveLevelToUnlock(5)
                     .fearCostPerTick(1f).domainMaxTicks(1000000, 1000000)
                     .standPerformDuration(StandDomainAction.EXPAND_TICK + 10)
                     .standRecoveryTicks(8)
-                    .holdToFire(40, false)));
+                    .holdToFire(50, false)));
     public static final RegistryObject<StandEntityAction> DEMON_STAND_DOMAIN_CLOSE = ACTIONS.register("domain_close",
             () -> new StandDomainClose(new StandEntityAction.Builder()
                     .shiftVariationOf(DEMON_STAND_DOMAIN)));
@@ -94,6 +96,11 @@ public class InitStands {
                     .staminaCost(10F).fearCost(1).staminaCostPerTick(0)
             ));
 
+    public static final RegistryObject<StandEntityAction> DEMON_STAND_VIEW = ACTIONS.register("demon_view",
+            () -> new DemonViewAction(new DemonViewAction.Builder()
+                    .standSound(InitSounds.DEMON_VIEW)
+                    .expandRadius(50.0F)));
+
 
     // ...then create the Stand type instance. Moves, stats, entity sizes, and a few other things are determined here.
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<DemonStandEntity>> STAND_DEMON_STAND = 
@@ -110,10 +117,12 @@ public class InitStands {
                 .rightClickHotbar(
                         DEMON_STAND_BLOCK.get(),
                         DEMON_STAND_DOMAIN.get(),
-                        DEMON_STAND_FREEZE.get()
+                        DEMON_STAND_FREEZE.get(),
+                        DEMON_STAND_VIEW.get()
                         )
                 .defaultStats(StandStats.class, new StandStats.Builder()
                         .tier(6)
+                        .randomWeight(1)
                         .power(11, 13)
                         .speed(11, 13)
                         .range(8, 8)

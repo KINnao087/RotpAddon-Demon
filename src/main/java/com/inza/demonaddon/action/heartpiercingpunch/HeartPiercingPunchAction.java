@@ -7,6 +7,7 @@ import com.github.standobyte.jojo.action.stand.punch.StandEntityPunch;
 import com.github.standobyte.jojo.action.stand.punch.StandMissedPunch;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
+import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.damage.StandEntityDamageSource;
 
@@ -19,9 +20,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 
+
 public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
 
-    public HeartPiercingPunchAction(Builder builder) {
+    public HeartPiercingPunchAction(HeartPiercingPunchAction.Builder builder) {
         super(builder);
     }
 
@@ -45,16 +47,20 @@ public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
 
     @Override
     public StandEntityPunch punchEntity(StandEntity stand, Entity target, StandEntityDamageSource dmgSource) {
-        StandEntityPunch base = super.punchEntity(stand, target, dmgSource);
+        StandEntityPunch punch = super.punchEntity(stand, target, dmgSource);
+        punch.damage(punch.getDamage() * 1.5F);
+        punch.reduceKnockback(0.0F);
 
-        double strength = stand.getAttackDamage();
+        if (!(target instanceof LivingEntity)) return punch;
 
-        return new HeartPiercingPunchInstance(stand, target, dmgSource)
-                .damage(com.github.standobyte.jojo.entity.stand.StandStatFormulas.getHeavyAttackDamage(strength))
-                .addKnockback(0.65F)
-                .setStandInvulTime(10)
-                .impactSound(() -> getPunchSwingSound());
+        LivingEntity victim = (LivingEntity) target;
+        victim.addEffect(new EffectInstance(Effects.WITHER, 40, 0, false, false, false));
+        victim.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 5,false, false, false));
+        victim.addEffect(new EffectInstance(ModStatusEffects.BLEEDING.get(), 40, 1));
+
+        return punch;
     }
+
 
     public static class HeartPiercingPunchInstance extends StandEntityPunch {
 
@@ -67,19 +73,10 @@ public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
             return super.onAttack(stand, target, dmgSource, damage);
         }
 
+
         @Override
         protected void afterAttack(StandEntity stand, Entity target, StandEntityDamageSource dmgSource,
                                    StandEntityTask task, boolean hurt, boolean killed) {
-            if (!stand.level.isClientSide() && hurt && target instanceof LivingEntity) {
-                LivingEntity victim = (LivingEntity) target;
-                victim.addEffect(new EffectInstance(Effects.WITHER, 40, 0));
-                victim.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 20, 2));
-                float bonus = Math.max(1.0F, damageBonusFromStand(stand));
-                victim.hurt(dmgSource, bonus);
-                victim.push(0.0D, 0.18D, 0.0D);
-                victim.hurtMarked = true;
-            }
-
             super.afterAttack(stand, target, dmgSource, task, hurt, killed);
         }
 
@@ -90,7 +87,7 @@ public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
 
     @Override
     public StandBlockPunch punchBlock(StandEntity stand, BlockPos pos, BlockState state, Direction face) {
-        return super.punchBlock(stand, pos, state, face);
+        return super.punchBlock(stand, pos, state, face).impactSound(null);
     }
 
     @Override

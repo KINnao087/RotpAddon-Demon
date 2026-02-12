@@ -1,13 +1,13 @@
 {
-  "entity.demonaddon.demon": "恶魔",
-  "stand.demonaddon.demon": "恶魔",
+  "entity.demonaddon.demon_stand": "我将直面恐惧",
+  "stand.demonaddon.demon_stand": "我将直面恐惧",
   "action.demonaddon.demon_stand_punch": "挥拳",
-  "action.demonaddon.demon_stand_barrage": "连打（拉儿拉儿拉儿！）",
-  "action.demonaddon.demon_stand_finisher_punch": "拉儿终结拳",
-  "action.demonaddon.demon_stand_heart_piercing_punch": "拉儿穿心攻击",
+  "action.demonaddon.demon_stand_barrage": "连打",
+  "action.demonaddon.demon_stand_finisher_punch": "重击",
+  "action.demonaddon.demon_stand_heart_piercing_punch": "穿胸",
   "action.demonaddon.demon_stand_heavy_punch": "重击",
-  "action.demonaddon.domain": "拉儿领域！",
-  "action.demonaddon.domain_close": "领域关闭",
+  "action.demonaddon.domain": "暗指束缚",
+  "action.demonaddon.domain_close": "收回",
   "action.demonaddon.demon_stand_block": "格挡",
-  "action.demonaddon.demon_stand_freeze": "拉儿恐吓！"
+  "action.demonaddon.demon_stand_freeze": "静滞之暗"
 }

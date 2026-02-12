@@ -36,8 +36,17 @@ public class InitSounds {
     public static final Supplier<SoundEvent> DEMON_STAND_START_DOMAIN = SOUNDS.register("domain_expand",
                 () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "domain_expand")));
 
+    public static final Supplier<SoundEvent> DOMAIN_WINDUP = SOUNDS.register("domain_windup",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "domain_windup")));
+
     public static final Supplier<SoundEvent> DEMON_STAND_BARRAGE = SOUNDS.register("barrage",
             () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "barrage")));
+
+    public static final Supplier<SoundEvent> DEMON_STAND_BLOOD_PUNCH = SOUNDS.register("blood_punch",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "blood_punch")));
+
+    public static final Supplier<SoundEvent> DEMON_VIEW = SOUNDS.register("demon_view",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "demon_view")));
 
     public static final OstSoundList DEMON_STAND_OST = new OstSoundList(
             new ResourceLocation(AddonMain.MOD_ID, "example_stand_ost"), SOUNDS);

@@ -2,6 +2,7 @@ package com.inza.demonaddon.network;
 
 import com.inza.demonaddon.AddonMain;
 import com.inza.demonaddon.network.packet.S2CAddDomainPacket;
+import com.inza.demonaddon.network.packet.S2CDemonVisionPacket;
 import com.inza.demonaddon.network.packet.S2CFearSyncPacket;
 import com.inza.demonaddon.network.packet.S2CForceCloseDomainPacket;
 
@@ -34,6 +35,11 @@ public final class AddonNetwork {
                 S2CFearSyncPacket::encode,
                 S2CFearSyncPacket::decode,
                 S2CFearSyncPacket::handle);
+
+        CHANNEL.registerMessage(id++, S2CDemonVisionPacket.class,
+                S2CDemonVisionPacket::encode,
+                S2CDemonVisionPacket::decode,
+                S2CDemonVisionPacket::handle);
     }
 
     public static void init() {

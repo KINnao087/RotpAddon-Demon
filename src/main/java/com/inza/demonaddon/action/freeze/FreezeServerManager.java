@@ -80,16 +80,8 @@ public final class FreezeServerManager {
 
         int id = nextId.getAndIncrement();
 
-        // ✅ 你当前 FreezeInstance 没有 “FreezeInstance(int id, DomainInstance area, user, action)” 这种构造
-        // 所以这里用你已有构造的“参数版”创建（下面按你 DomainInstance 的语义来填）
-        //
-        // !!! 这里必须与你 DomainInstance 构造保持一致 !!!
-        // 我按你 action 里那套：expandTick, maxRadius, maxTicks, closeTick
         long startTick = world.getGameTime();
 
-        // 你 FreezeInstance 构造里第三个参数 center，第4是 radiusBlocks，第5是 startTick
-        // 第6/7/8 我按你那行 new DomainInstance(center, startTick, durationTicks, radiusBlocks, keepTicks, closeTicks, uuid)
-        // 推断：durationTicks=expandTick, keepTicks=maxTicks, closeTicks=closeTick
         FreezeInstance inst = new FreezeInstance(
                 world,
                 area.keepTicks + area.durationTicks + area.closeTicks,             // 如果你 DomainInstance 里有 maxTicks 字段就用它；没有的话用你传入的

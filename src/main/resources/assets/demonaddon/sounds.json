@@ -4,6 +4,11 @@
     "sounds": [ "demonaddon:domain_expand" ]
   },
 
+  "domain_windup": {
+    "subtitle": "demonaddon.subtitle.domain_windup.name",
+    "sounds": [ "demonaddon:domain_windup" ]
+  },
+
   "freeze": {
     "subtitle": "demonaddon.subtitle.freeze.name",
     "sounds": [ "demonaddon:freeze" ]
@@ -12,5 +17,15 @@
   "barrage": {
     "subtitle": "demonaddon.subtitle.barrage.name",
     "sounds": [ "demonaddon:barrage" ]
+  },
+
+  "blood_punch": {
+    "subtitle": "demonaddon.subtitle.blood_punch.name",
+    "sounds": [ "demonaddon:blood_punch" ]
+  },
+
+  "demon_view": {
+    "subtitle": "demonaddon.subtitle.demon_view.name",
+    "sounds": [ "demonaddon:demon_view" ]
   }
 }
