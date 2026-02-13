@@ -28,7 +28,7 @@ public class DemonStandHeavyAttack extends StandEntityHeavyAttack {
         ServerUtils.randomAddEffects(
                 livingEntity,
                 new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
-                        , 0, false, true, true),
+                        , 0, false, false, false),
                 probability, InitEffects.MAX_EFFECT_STACKS
         );
 

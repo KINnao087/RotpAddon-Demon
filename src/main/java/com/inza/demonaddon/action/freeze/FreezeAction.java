@@ -53,7 +53,7 @@ public class FreezeAction extends StandEntityAction {
         ServerUtils.randomAddEffects(
                 livingEntity,
                 new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
-                        , 3, false, true, true),
+                        , 3, false, false, false),
                 1.0f, InitEffects.MAX_EFFECT_STACKS
         );
     }

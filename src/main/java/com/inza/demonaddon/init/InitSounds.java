@@ -20,7 +20,7 @@ public class InitSounds {
     public static final RegistryObject<SoundEvent> DEMON_STAND_SUMMON_VOICELINE = SOUNDS.register("demon_stand_summon_voiceline", 
             () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "demon_stand_summon_voiceline")));
 
-    public static final Supplier<SoundEvent> DEMON_STAND_UNSUMMON_SOUND = ModSounds.THE_WORLD_UNSUMMON;
+    public static final Supplier<SoundEvent> DEMON_STAND_UNSUMMON_SOUND = ModSounds.STAND_UNSUMMON_DEFAULT;
     
     public static final Supplier<SoundEvent> DEMON_STAND_PUNCH_LIGHT = ModSounds.STAND_PUNCH_LIGHT;
     

@@ -58,7 +58,7 @@ public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
         ServerUtils.randomAddEffects(
                 (LivingEntity) target,
                 new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
-                        , 2, false, true, true),
+                        , 2, false, false, false),
                 1.0f, InitEffects.MAX_EFFECT_STACKS
         );
 

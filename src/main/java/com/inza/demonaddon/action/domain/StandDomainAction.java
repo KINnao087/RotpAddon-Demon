@@ -192,7 +192,7 @@ public class StandDomainAction extends StandEntityAction {
                 ServerUtils.randomAddEffects(
                         entity,
                         new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
-                                , 0, false, true, true),
+                                , 0, false, false, false),
                         1.0f, InitEffects.MAX_EFFECT_STACKS
                 );
             }

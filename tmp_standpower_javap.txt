@@ -1,0 +1,1703 @@
+Compiled from "StandPower.java"
+public class com.github.standobyte.jojo.power.impl.stand.StandPower extends com.github.standobyte.jojo.power.impl.PowerBaseImpl<com.github.standobyte.jojo.power.impl.stand.IStandPower, com.github.standobyte.jojo.power.impl.stand.type.StandType<?>> implements com.github.standobyte.jojo.power.impl.stand.IStandPower {
+  public boolean willSoulSpawn;
+
+  public com.github.standobyte.jojo.power.impl.stand.StandPower(net.minecraft.entity.LivingEntity);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #88                 // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl."<init>":(Lnet/minecraft/entity/LivingEntity;)V
+       5: aload_0
+       6: invokestatic  #94                 // Method java/util/Optional.empty:()Ljava/util/Optional;
+       9: putfield      #96                 // Field standInstance:Ljava/util/Optional;
+      12: aload_0
+      13: invokestatic  #94                 // Method java/util/Optional.empty:()Ljava/util/Optional;
+      16: putfield      #98                 // Field invalidReadStandId:Ljava/util/Optional;
+      19: aload_0
+      20: invokestatic  #94                 // Method java/util/Optional.empty:()Ljava/util/Optional;
+      23: putfield      #100                // Field invalidReadStandNbt:Ljava/util/Optional;
+      26: aload_0
+      27: iconst_0
+      28: putfield      #102                // Field hadStand:Z
+      31: aload_0
+      32: new           #104                // class com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet
+      35: dup
+      36: invokespecial #107                // Method com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet."<init>":()V
+      39: putfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+      42: aload_0
+      43: new           #111                // class com/github/standobyte/jojo/power/impl/stand/StandArrowHandler
+      46: dup
+      47: invokespecial #112                // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler."<init>":()V
+      50: putfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+      53: aload_0
+      54: aconst_null
+      55: putfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      58: aload_0
+      59: fconst_0
+      60: putfield      #118                // Field staminaAddNextTick:F
+      63: aload_0
+      64: iconst_0
+      65: putfield      #120                // Field sendStaminaToTracking:Z
+      68: aload_0
+      69: new           #122                // class com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker
+      72: dup
+      73: aload_0
+      74: invokespecial #125                // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker."<init>":(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      77: putfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      80: aload_0
+      81: new           #17                 // class com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress
+      84: dup
+      85: invokespecial #128                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress."<init>":()V
+      88: putfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      91: aload_0
+      92: new           #132                // class com/github/standobyte/jojo/power/impl/stand/ResolveCounter
+      95: dup
+      96: aload_0
+      97: invokespecial #133                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter."<init>":(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+     100: putfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+     103: return
+
+  public com.github.standobyte.jojo.power.IPower$PowerClassification getPowerClassification();
+    Code:
+       0: getstatic     #145                // Field com/github/standobyte/jojo/power/IPower$PowerClassification.STAND:Lcom/github/standobyte/jojo/power/IPower$PowerClassification;
+       3: areturn
+
+  public java.util.Optional<com.github.standobyte.jojo.power.impl.stand.StandInstance> getStandInstance();
+    Code:
+       0: aload_0
+       1: getfield      #96                 // Field standInstance:Ljava/util/Optional;
+       4: areturn
+
+  public com.github.standobyte.jojo.power.impl.stand.type.StandType<?> getType();
+    Code:
+       0: aload_0
+       1: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+       4: invokedynamic #170,  0            // InvokeDynamic #0:apply:()Ljava/util/function/Function;
+       9: invokevirtual #174                // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+      12: aconst_null
+      13: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      16: checkcast     #179                // class com/github/standobyte/jojo/power/impl/stand/type/StandType
+      19: areturn
+
+  public boolean hasPower();
+    Code:
+       0: aload_0
+       1: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+       4: invokevirtual #184                // Method java/util/Optional.isPresent:()Z
+       7: ireturn
+
+  public boolean givePower(com.github.standobyte.jojo.power.impl.stand.type.StandType<?>);
+    Code:
+       0: aload_0
+       1: new           #45                 // class com/github/standobyte/jojo/power/impl/stand/StandInstance
+       4: dup
+       5: aload_1
+       6: invokespecial #190                // Method com/github/standobyte/jojo/power/impl/stand/StandInstance."<init>":(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)V
+       9: iconst_0
+      10: invokevirtual #194                // Method giveStandFromInstance:(Lcom/github/standobyte/jojo/power/impl/stand/StandInstance;Z)Z
+      13: ireturn
+
+  public boolean giveStandFromInstance(com.github.standobyte.jojo.power.impl.stand.StandInstance, boolean);
+    Code:
+       0: aload_1
+       1: ifnonnull     6
+       4: iconst_0
+       5: ireturn
+       6: aload_1
+       7: invokevirtual #156                // Method com/github/standobyte/jojo/power/impl/stand/StandInstance.getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      10: astore_3
+      11: aload_0
+      12: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      15: ifnull        31
+      18: aload_0
+      19: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      22: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      25: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      28: ifne          41
+      31: aload_0
+      32: aload_3
+      33: invokevirtual #214                // Method canGetPower:(Lcom/github/standobyte/jojo/power/IPowerType;)Z
+      36: ifne          41
+      39: iconst_0
+      40: ireturn
+      41: aload_0
+      42: aload_1
+      43: invokevirtual #218                // Method setStandInstance:(Lcom/github/standobyte/jojo/power/impl/stand/StandInstance;)V
+      46: aload_0
+      47: aload_3
+      48: invokevirtual #221                // Method onNewPowerGiven:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)V
+      51: iload_2
+      52: ifne          68
+      55: aload_0
+      56: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      59: aload_3
+      60: invokedynamic #237,  0            // InvokeDynamic #1:accept:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)Ljava/util/function/Consumer;
+      65: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      68: iconst_1
+      69: ireturn
+
+  public void setStandInstance(com.github.standobyte.jojo.power.impl.stand.StandInstance);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #247                // Method java/util/Optional.ofNullable:(Ljava/lang/Object;)Ljava/util/Optional;
+       5: putfield      #96                 // Field standInstance:Ljava/util/Optional;
+       8: aload_0
+       9: invokevirtual #250                // Method clUpdateHud:()V
+      12: return
+
+  protected void onNewPowerGiven(com.github.standobyte.jojo.power.impl.stand.type.StandType<?>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #254                // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.onNewPowerGiven:(Lcom/github/standobyte/jojo/power/IPowerType;)V
+       5: aload_0
+       6: invokevirtual #257                // Method usesStamina:()Z
+       9: ifeq          31
+      12: aload_0
+      13: aload_0
+      14: invokevirtual #260                // Method isUserCreative:()Z
+      17: ifeq          27
+      20: aload_0
+      21: invokevirtual #264                // Method getMaxStamina:()F
+      24: goto          28
+      27: fconst_0
+      28: putfield      #266                // Field stamina:F
+      31: aload_0
+      32: invokevirtual #269                // Method usesResolve:()Z
+      35: ifeq          46
+      38: aload_0
+      39: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      42: aload_1
+      43: invokevirtual #272                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.onStandAcquired:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)V
+      46: aload_1
+      47: ifnull        55
+      50: aload_0
+      51: iconst_1
+      52: putfield      #102                // Field hadStand:Z
+      55: aload_0
+      56: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      59: ifnull        124
+      62: aload_0
+      63: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      66: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      69: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      72: ifne          124
+      75: aload_0
+      76: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      79: aload_0
+      80: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      83: invokevirtual #275                // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.onStandChanged:(Lnet/minecraft/entity/LivingEntity;)V
+      86: new           #277                // class com/github/standobyte/jojo/network/packets/fromserver/TrTypeStandInstancePacket
+      89: dup
+      90: aload_0
+      91: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      94: invokevirtual #281                // Method net/minecraft/entity/LivingEntity.func_145782_y:()I
+      97: aload_0
+      98: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+     101: invokevirtual #285                // Method java/util/Optional.get:()Ljava/lang/Object;
+     104: checkcast     #45                 // class com/github/standobyte/jojo/power/impl/stand/StandInstance
+     107: aload_0
+     108: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+     111: invokevirtual #288                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getResolveLevel:()I
+     114: invokespecial #291                // Method com/github/standobyte/jojo/network/packets/fromserver/TrTypeStandInstancePacket."<init>":(ILcom/github/standobyte/jojo/power/impl/stand/StandInstance;I)V
+     117: aload_0
+     118: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     121: invokestatic  #297                // Method com/github/standobyte/jojo/network/PacketManager.sendToClientsTrackingAndSelf:(Ljava/lang/Object;Lnet/minecraft/entity/Entity;)V
+     124: aload_0
+     125: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     128: ifnull        178
+     131: aload_0
+     132: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     135: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+     138: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+     141: ifne          178
+     144: aload_0
+     145: aload_0
+     146: invokevirtual #264                // Method getMaxStamina:()F
+     149: ldc_w         #298                // float 0.5f
+     152: fmul
+     153: invokevirtual #302                // Method setStamina:(F)V
+     156: aload_0
+     157: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     160: invokestatic  #306                // Method playerSkipsActionTraining:(Lnet/minecraft/entity/LivingEntity;)Z
+     163: ifeq          173
+     166: aload_0
+     167: invokevirtual #309                // Method skipProgression:()V
+     170: goto          178
+     173: aload_1
+     174: aload_0
+     175: invokevirtual #312                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.unlockNewActions:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+     178: aload_0
+     179: getfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+     182: aload_1
+     183: aload_0
+     184: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     187: invokevirtual #316                // Method com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet.addStand:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;Lnet/minecraft/entity/LivingEntity;)V
+     190: return
+
+  public boolean clear();
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: invokespecial #320                // Method clear:(Z)Z
+       5: ireturn
+
+  public java.util.Optional<com.github.standobyte.jojo.power.impl.stand.StandInstance> putOutStand();
+    Code:
+       0: aload_0
+       1: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+       4: astore_1
+       5: aload_0
+       6: iconst_0
+       7: invokespecial #320                // Method clear:(Z)Z
+      10: ifeq          17
+      13: aload_1
+      14: goto          20
+      17: invokestatic  #94                 // Method java/util/Optional.empty:()Ljava/util/Optional;
+      20: areturn
+
+  public com.github.standobyte.jojo.power.impl.stand.PreviousStandsSet getPreviousStandsSet();
+    Code:
+       0: aload_0
+       1: getfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+       4: areturn
+
+  public com.github.standobyte.jojo.power.impl.stand.StandArrowHandler getStandArrowHandler();
+    Code:
+       0: aload_0
+       1: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+       4: areturn
+
+  public boolean hadAnyStand();
+    Code:
+       0: aload_0
+       1: getfield      #102                // Field hadStand:Z
+       4: ireturn
+
+  public net.minecraft.util.text.ITextComponent getName();
+    Code:
+       0: aload_0
+       1: invokevirtual #355                // Method hasPower:()Z
+       4: ifeq          31
+       7: aload_0
+       8: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+      11: invokedynamic #362,  0            // InvokeDynamic #3:apply:()Ljava/util/function/Function;
+      16: invokevirtual #174                // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+      19: getstatic     #368                // Field net/minecraft/util/text/StringTextComponent.field_240750_d_:Lnet/minecraft/util/text/ITextComponent;
+      22: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      25: checkcast     #370                // class net/minecraft/util/text/ITextComponent
+      28: goto          34
+      31: getstatic     #368                // Field net/minecraft/util/text/StringTextComponent.field_240750_d_:Lnet/minecraft/util/text/ITextComponent;
+      34: areturn
+
+  public void tick();
+    Code:
+       0: aload_0
+       1: invokespecial #373                // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.tick:()V
+       4: aload_0
+       5: invokevirtual #355                // Method hasPower:()Z
+       8: ifeq          46
+      11: aload_0
+      12: invokespecial #376                // Method tickStamina:()V
+      15: aload_0
+      16: invokespecial #379                // Method tickResolve:()V
+      19: aload_0
+      20: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      23: ifnull        39
+      26: aload_0
+      27: getfield      #96                 // Field standInstance:Ljava/util/Optional;
+      30: aload_0
+      31: invokedynamic #387,  0            // InvokeDynamic #4:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Ljava/util/function/Consumer;
+      36: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      39: aload_0
+      40: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      43: invokevirtual #388                // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.tick:()V
+      46: aload_0
+      47: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      50: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      53: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      56: ifne          77
+      59: aload_0
+      60: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+      63: aload_0
+      64: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      67: invokevirtual #390                // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler.tick:(Lnet/minecraft/entity/LivingEntity;)V
+      70: aload_0
+      71: invokespecial #393                // Method tickSoulCheck:()V
+      74: goto          134
+      77: aload_0
+      78: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      81: invokestatic  #399                // Method com/github/standobyte/jojo/client/ClientUtil.getClientPlayer:()Lnet/minecraft/entity/player/PlayerEntity;
+      84: if_acmpne     134
+      87: aload_0
+      88: invokevirtual #402                // Method getStamina:()F
+      91: aload_0
+      92: invokevirtual #264                // Method getMaxStamina:()F
+      95: ldc_w         #298                // float 0.5f
+      98: fmul
+      99: fcmpg
+     100: ifge          125
+     103: aload_0
+     104: invokestatic  #408                // Method com/github/standobyte/jojo/power/impl/stand/StandUtil.standIgnoresStaminaDebuff:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)Z
+     107: ifne          125
+     110: getstatic     #412                // Field com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType.STAMINA:Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType;
+     113: invokestatic  #416                // Method com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer.getBarEffects:(Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType;)Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarEffects;
+     116: ldc_w         #417                // int 999999
+     119: invokevirtual #421                // Method com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarEffects.triggerRedHighlight:(I)V
+     122: goto          134
+     125: getstatic     #412                // Field com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType.STAMINA:Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType;
+     128: invokestatic  #416                // Method com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer.getBarEffects:(Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarType;)Lcom/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarEffects;
+     131: invokevirtual #424                // Method com/github/standobyte/jojo/client/ui/actionshud/BarsRenderer$BarEffects.resetRedHighlight:()V
+     134: return
+
+  public boolean isActive();
+    Code:
+       0: aload_0
+       1: invokevirtual #355                // Method hasPower:()Z
+       4: ifeq          26
+       7: aload_0
+       8: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      11: aload_0
+      12: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      15: aload_0
+      16: invokevirtual #428                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.isStandSummoned:(Lnet/minecraft/entity/LivingEntity;Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)Z
+      19: ifeq          26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: ireturn
+
+  public boolean usesStamina();
+    Code:
+       0: aload_0
+       1: invokevirtual #355                // Method hasPower:()Z
+       4: ifeq          21
+       7: aload_0
+       8: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      11: invokevirtual #429                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.usesStamina:()Z
+      14: ifeq          21
+      17: iconst_1
+      18: goto          22
+      21: iconst_0
+      22: ireturn
+
+  public float getStamina();
+    Code:
+       0: aload_0
+       1: invokevirtual #432                // Method isStaminaInfinite:()Z
+       4: ifeq          14
+       7: aload_0
+       8: invokevirtual #264                // Method getMaxStamina:()F
+      11: goto          18
+      14: aload_0
+      15: getfield      #266                // Field stamina:F
+      18: freturn
+
+  public float getMaxStamina();
+    Code:
+       0: aload_0
+       1: invokevirtual #257                // Method usesStamina:()Z
+       4: ifne          9
+       7: fconst_0
+       8: freturn
+       9: aload_0
+      10: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      13: aload_0
+      14: invokevirtual #435                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.getMaxStamina:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      17: fstore_1
+      18: fload_1
+      19: aload_0
+      20: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      23: invokestatic  #445                // InterfaceMethod com/github/standobyte/jojo/power/impl/nonstand/INonStandPower.getNonStandPowerOptional:(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraftforge/common/util/LazyOptional;
+      26: aload_0
+      27: invokedynamic #454,  0            // InvokeDynamic #5:apply:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Lnet/minecraftforge/common/util/NonNullFunction;
+      32: invokevirtual #459                // Method net/minecraftforge/common/util/LazyOptional.map:(Lnet/minecraftforge/common/util/NonNullFunction;)Ljava/util/Optional;
+      35: fconst_1
+      36: invokestatic  #465                // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+      39: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      42: checkcast     #461                // class java/lang/Float
+      45: invokevirtual #468                // Method java/lang/Float.floatValue:()F
+      48: fmul
+      49: fstore_1
+      50: fload_1
+      51: aload_0
+      52: invokespecial #471                // Method getStaminaDurabilityModifier:()F
+      55: fmul
+      56: freturn
+
+  public void addStamina(float, boolean);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: getfield      #266                // Field stamina:F
+       5: fload_1
+       6: fadd
+       7: fconst_0
+       8: aload_0
+       9: invokevirtual #264                // Method getMaxStamina:()F
+      12: invokestatic  #480                // Method net/minecraft/util/math/MathHelper.func_76131_a:(FFF)F
+      15: iload_2
+      16: invokespecial #482                // Method setStamina:(FZ)V
+      19: return
+
+  public boolean consumeStamina(float, boolean);
+    Code:
+       0: aload_0
+       1: invokevirtual #432                // Method isStaminaInfinite:()Z
+       4: ifeq          9
+       7: iconst_1
+       8: ireturn
+       9: aload_0
+      10: invokevirtual #402                // Method getStamina:()F
+      13: fload_1
+      14: fcmpl
+      15: iflt          60
+      18: iload_2
+      19: ifeq          35
+      22: aload_0
+      23: dup
+      24: getfield      #118                // Field staminaAddNextTick:F
+      27: fload_1
+      28: fsub
+      29: putfield      #118                // Field staminaAddNextTick:F
+      32: goto          58
+      35: aload_0
+      36: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      39: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      42: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      45: ifne          58
+      48: aload_0
+      49: aload_0
+      50: getfield      #266                // Field stamina:F
+      53: fload_1
+      54: fsub
+      55: invokevirtual #302                // Method setStamina:(F)V
+      58: iconst_1
+      59: ireturn
+      60: aload_0
+      61: fconst_0
+      62: invokevirtual #302                // Method setStamina:(F)V
+      65: aload_0
+      66: invokestatic  #408                // Method com/github/standobyte/jojo/power/impl/stand/StandUtil.standIgnoresStaminaDebuff:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)Z
+      69: ireturn
+
+  public boolean isStaminaInfinite();
+    Code:
+       0: aload_0
+       1: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+       4: ifnull        42
+       7: aload_0
+       8: invokevirtual #260                // Method isUserCreative:()Z
+      11: ifne          42
+      14: aload_0
+      15: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      18: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      21: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      24: invokestatic  #491                // Method com/github/standobyte/jojo/JojoModConfig.getCommonConfigInstance:(Z)Lcom/github/standobyte/jojo/JojoModConfig$Common;
+      27: getfield      #495                // Field com/github/standobyte/jojo/JojoModConfig$Common.standStamina:Lnet/minecraftforge/common/ForgeConfigSpec$BooleanValue;
+      30: invokevirtual #496                // Method net/minecraftforge/common/ForgeConfigSpec$BooleanValue.get:()Ljava/lang/Object;
+      33: checkcast     #498                // class java/lang/Boolean
+      36: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+      39: ifne          46
+      42: iconst_1
+      43: goto          47
+      46: iconst_0
+      47: ireturn
+
+  public void setStamina(float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: iconst_1
+       3: invokespecial #482                // Method setStamina:(FZ)V
+       6: return
+
+  public void clPacketSetStamina(float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: putfield      #266                // Field stamina:F
+       5: return
+
+  public float getStaminaTickGain();
+    Code:
+       0: aload_0
+       1: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+       4: aload_0
+       5: invokevirtual #525                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.getStaminaRegen:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+       8: fstore_1
+       9: aload_0
+      10: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      13: ifnull        56
+      16: aload_0
+      17: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      20: getstatic     #531                // Field com/github/standobyte/jojo/capability/entity/LivingUtilCapProvider.CAPABILITY:Lnet/minecraftforge/common/capabilities/Capability;
+      23: invokevirtual #535                // Method net/minecraft/entity/LivingEntity.getCapability:(Lnet/minecraftforge/common/capabilities/Capability;)Lnet/minecraftforge/common/util/LazyOptional;
+      26: invokedynamic #544,  0            // InvokeDynamic #7:apply:()Lnet/minecraftforge/common/util/NonNullFunction;
+      31: invokevirtual #459                // Method net/minecraftforge/common/util/LazyOptional.map:(Lnet/minecraftforge/common/util/NonNullFunction;)Ljava/util/Optional;
+      34: iconst_0
+      35: invokestatic  #547                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      38: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      41: checkcast     #498                // class java/lang/Boolean
+      44: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+      47: ifeq          56
+      50: fload_1
+      51: ldc_w         #548                // float 3.5f
+      54: fsub
+      55: fstore_1
+      56: fload_1
+      57: fconst_0
+      58: fcmpl
+      59: ifle          130
+      62: fload_1
+      63: aload_0
+      64: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      67: invokestatic  #445                // InterfaceMethod com/github/standobyte/jojo/power/impl/nonstand/INonStandPower.getNonStandPowerOptional:(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraftforge/common/util/LazyOptional;
+      70: aload_0
+      71: invokedynamic #553,  0            // InvokeDynamic #8:apply:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Lnet/minecraftforge/common/util/NonNullFunction;
+      76: invokevirtual #459                // Method net/minecraftforge/common/util/LazyOptional.map:(Lnet/minecraftforge/common/util/NonNullFunction;)Ljava/util/Optional;
+      79: fconst_1
+      80: invokestatic  #465                // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+      83: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      86: checkcast     #461                // class java/lang/Float
+      89: invokevirtual #468                // Method java/lang/Float.floatValue:()F
+      92: fmul
+      93: fstore_1
+      94: aload_0
+      95: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      98: instanceof    #555                // class net/minecraft/entity/player/PlayerEntity
+     101: ifeq          130
+     104: aload_0
+     105: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+     108: checkcast     #555                // class net/minecraft/entity/player/PlayerEntity
+     111: astore_2
+     112: aload_2
+     113: invokevirtual #559                // Method net/minecraft/entity/player/PlayerEntity.func_71024_bL:()Lnet/minecraft/util/FoodStats;
+     116: invokevirtual #564                // Method net/minecraft/util/FoodStats.func_75116_a:()I
+     119: bipush        17
+     121: if_icmple     130
+     124: fload_1
+     125: ldc_w         #565                // float 1.25f
+     128: fmul
+     129: fstore_1
+     130: fload_1
+     131: aload_0
+     132: invokespecial #471                // Method getStaminaDurabilityModifier:()F
+     135: fmul
+     136: freturn
+
+  public com.github.standobyte.jojo.power.impl.stand.ResolveCounter getResolveCounter();
+    Code:
+       0: aload_0
+       1: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+       4: areturn
+
+  public void setResolveCounter(com.github.standobyte.jojo.power.impl.stand.ResolveCounter);
+    Code:
+       0: aload_0
+       1: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+       4: aload_1
+       5: invokevirtual #600                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.clone:(Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;)V
+       8: return
+
+  public boolean usesResolve();
+    Code:
+       0: aload_0
+       1: invokevirtual #355                // Method hasPower:()Z
+       4: ifeq          21
+       7: aload_0
+       8: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      11: invokevirtual #602                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.usesResolve:()Z
+      14: ifeq          21
+      17: iconst_1
+      18: goto          22
+      21: iconst_0
+      22: ireturn
+
+  public float getResolve();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifne          9
+       7: fconst_0
+       8: freturn
+       9: aload_0
+      10: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      13: invokevirtual #606                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getResolveValue:()F
+      16: freturn
+
+  public float getMaxResolve();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifne          9
+       7: fconst_0
+       8: freturn
+       9: aload_0
+      10: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      13: invokevirtual #610                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getMaxResolveValue:()F
+      16: freturn
+
+  public int getResolveLevel();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifne          9
+       7: iconst_0
+       8: ireturn
+       9: aload_0
+      10: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      13: invokevirtual #288                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getResolveLevel:()I
+      16: ireturn
+
+  public void setResolveLevel(int);
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifeq          66
+       7: aload_0
+       8: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      11: iload_1
+      12: invokevirtual #613                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.setResolveLevel:(I)V
+      15: aload_0
+      16: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      19: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      22: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      25: ifne          66
+      28: aload_0
+      29: invokevirtual #355                // Method hasPower:()Z
+      32: ifeq          66
+      35: aload_0
+      36: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      39: aload_0
+      40: invokevirtual #616                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.onNewResolveLevel:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      43: iload_1
+      44: aload_0
+      45: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      48: invokevirtual #619                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.getMaxResolveLevel:()I
+      51: if_icmplt     66
+      54: aload_0
+      55: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      58: invokedynamic #626,  0            // InvokeDynamic #9:accept:()Ljava/util/function/Consumer;
+      63: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      66: return
+
+  public int getMaxResolveLevel();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifne          9
+       7: iconst_0
+       8: ireturn
+       9: aload_0
+      10: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      13: invokevirtual #619                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.getMaxResolveLevel:()I
+      16: ireturn
+
+  public float getResolveDmgReduction();
+    Code:
+       0: aload_0
+       1: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+       4: invokestatic  #445                // InterfaceMethod com/github/standobyte/jojo/power/impl/nonstand/INonStandPower.getNonStandPowerOptional:(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraftforge/common/util/LazyOptional;
+       7: invokedynamic #636,  0            // InvokeDynamic #10:apply:()Lnet/minecraftforge/common/util/NonNullFunction;
+      12: invokevirtual #459                // Method net/minecraftforge/common/util/LazyOptional.map:(Lnet/minecraftforge/common/util/NonNullFunction;)Ljava/util/Optional;
+      15: iconst_0
+      16: invokestatic  #547                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      19: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      22: checkcast     #498                // class java/lang/Boolean
+      25: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+      28: ifeq          33
+      31: fconst_0
+      32: freturn
+      33: aload_0
+      34: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      37: getstatic     #642                // Field com/github/standobyte/jojo/init/ModStatusEffects.RESOLVE:Lnet/minecraftforge/fml/RegistryObject;
+      40: invokevirtual #647                // Method net/minecraftforge/fml/RegistryObject.get:()Lnet/minecraftforge/registries/IForgeRegistryEntry;
+      43: checkcast     #649                // class net/minecraft/potion/Effect
+      46: invokevirtual #653                // Method net/minecraft/entity/LivingEntity.func_70644_a:(Lnet/minecraft/potion/Effect;)Z
+      49: ifeq          56
+      52: ldc_w         #654                // float 0.6667f
+      55: freturn
+      56: aload_0
+      57: invokevirtual #269                // Method usesResolve:()Z
+      60: ifeq          72
+      63: aload_0
+      64: invokevirtual #657                // Method getResolveRatio:()F
+      67: ldc_w         #654                // float 0.6667f
+      70: fmul
+      71: freturn
+      72: fconst_0
+      73: freturn
+
+  public float getPrevTickResolve();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifne          9
+       7: fconst_0
+       8: freturn
+       9: aload_0
+      10: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      13: invokevirtual #662                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getPrevTickResolveValue:()F
+      16: freturn
+
+  public boolean willSoulSpawn();
+    Code:
+       0: aload_0
+       1: getfield      #699                // Field willSoulSpawn:Z
+       4: ireturn
+
+  public void clSetSoulSpawnFlag(boolean);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #699                // Field willSoulSpawn:Z
+       5: return
+
+  public boolean spawnSoulOnDeath();
+    Code:
+       0: aload_0
+       1: invokespecial #393                // Method tickSoulCheck:()V
+       4: aload_0
+       5: getfield      #699                // Field willSoulSpawn:Z
+       8: ifeq          149
+      11: aload_0
+      12: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      15: getstatic     #642                // Field com/github/standobyte/jojo/init/ModStatusEffects.RESOLVE:Lnet/minecraftforge/fml/RegistryObject;
+      18: invokevirtual #647                // Method net/minecraftforge/fml/RegistryObject.get:()Lnet/minecraftforge/registries/IForgeRegistryEntry;
+      21: checkcast     #649                // class net/minecraft/potion/Effect
+      24: invokevirtual #653                // Method net/minecraft/entity/LivingEntity.func_70644_a:(Lnet/minecraft/potion/Effect;)Z
+      27: ifeq          34
+      30: fconst_1
+      31: goto          38
+      34: aload_0
+      35: invokevirtual #657                // Method getResolveRatio:()F
+      38: fstore_1
+      39: ldc_w         #713                // float 60.0f
+      42: aload_0
+      43: invokevirtual #666                // Method getResolveLevel:()I
+      46: i2f
+      47: fload_1
+      48: fadd
+      49: fmul
+      50: f2i
+      51: istore_2
+      52: aload_0
+      53: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      56: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      59: invokevirtual #717                // Method net/minecraft/world/World.func_72912_H:()Lnet/minecraft/world/storage/IWorldInfo;
+      62: invokeinterface #722,  1          // InterfaceMethod net/minecraft/world/storage/IWorldInfo.func_76093_s:()Z
+      67: ifeq          76
+      70: iload_2
+      71: iload_2
+      72: iconst_2
+      73: idiv
+      74: iadd
+      75: istore_2
+      76: iload_2
+      77: istore_3
+      78: aload_0
+      79: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      82: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      85: invokevirtual #717                // Method net/minecraft/world/World.func_72912_H:()Lnet/minecraft/world/storage/IWorldInfo;
+      88: invokeinterface #722,  1          // InterfaceMethod net/minecraft/world/storage/IWorldInfo.func_76093_s:()Z
+      93: ifne          124
+      96: aload_0
+      97: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     100: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+     103: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+     106: invokestatic  #491                // Method com/github/standobyte/jojo/JojoModConfig.getCommonConfigInstance:(Z)Lcom/github/standobyte/jojo/JojoModConfig$Common;
+     109: getfield      #725                // Field com/github/standobyte/jojo/JojoModConfig$Common.keepStandOnDeath:Lnet/minecraftforge/common/ForgeConfigSpec$BooleanValue;
+     112: invokevirtual #496                // Method net/minecraftforge/common/ForgeConfigSpec$BooleanValue.get:()Ljava/lang/Object;
+     115: checkcast     #498                // class java/lang/Boolean
+     118: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+     121: ifne          128
+     124: iconst_1
+     125: goto          129
+     128: iconst_0
+     129: istore        4
+     131: aload_0
+     132: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+     135: aload_0
+     136: iload_3
+     137: iload         4
+     139: invokedynamic #735,  0            // InvokeDynamic #12:run:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;IZ)Ljava/lang/Runnable;
+     144: invokestatic  #741                // Method com/github/standobyte/jojo/capability/entity/EntityUtilCap.queueOnTimeResume:(Lnet/minecraft/entity/Entity;Ljava/lang/Runnable;)V
+     147: iconst_1
+     148: ireturn
+     149: aload_0
+     150: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+     153: invokedynamic #746,  0            // InvokeDynamic #13:accept:()Ljava/util/function/Consumer;
+     158: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+     161: iconst_0
+     162: ireturn
+
+  public com.github.standobyte.jojo.power.impl.stand.StandEffectsTracker getContinuousEffects();
+    Code:
+       0: aload_0
+       1: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+       4: areturn
+
+  public void skipProgression();
+    Code:
+       0: aload_0
+       1: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+       4: astore_1
+       5: aload_1
+       6: ifnull        52
+       9: aload_0
+      10: invokevirtual #755                // Method setProgressionSkipped:()V
+      13: aload_0
+      14: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      17: aload_0
+      18: invokevirtual #756                // Method getMaxResolveLevel:()I
+      21: invokevirtual #613                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.setResolveLevel:(I)V
+      24: aload_0
+      25: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      28: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      31: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      34: ifne          52
+      37: aload_1
+      38: invokevirtual #760                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.getAllUnlockableActions:()Ljava/lang/Iterable;
+      41: aload_0
+      42: invokedynamic #767,  0            // InvokeDynamic #14:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Ljava/util/function/Consumer;
+      47: invokeinterface #772,  2          // InterfaceMethod java/lang/Iterable.forEach:(Ljava/util/function/Consumer;)V
+      52: return
+
+  public void setProgressionSkipped();
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: putfield      #340                // Field skippedProgression:Z
+       5: aload_0
+       6: invokevirtual #250                // Method clUpdateHud:()V
+       9: return
+
+  public boolean wasProgressionSkipped();
+    Code:
+       0: aload_0
+       1: getfield      #340                // Field skippedProgression:Z
+       4: ireturn
+
+  public float getStatsDevelopment();
+    Code:
+       0: aload_0
+       1: invokevirtual #269                // Method usesResolve:()Z
+       4: ifeq          21
+       7: aload_0
+       8: invokevirtual #666                // Method getResolveLevel:()I
+      11: i2f
+      12: aload_0
+      13: invokevirtual #756                // Method getMaxResolveLevel:()I
+      16: i2f
+      17: fdiv
+      18: goto          22
+      21: fconst_0
+      22: freturn
+
+  public static boolean playerSkipsActionTraining(net.minecraft.entity.LivingEntity);
+    Code:
+       0: aload_0
+       1: ifnull        53
+       4: aload_0
+       5: instanceof    #555                // class net/minecraft/entity/player/PlayerEntity
+       8: ifeq          24
+      11: aload_0
+      12: checkcast     #555                // class net/minecraft/entity/player/PlayerEntity
+      15: getfield      #777                // Field net/minecraft/entity/player/PlayerEntity.field_71075_bZ:Lnet/minecraft/entity/player/PlayerAbilities;
+      18: getfield      #782                // Field net/minecraft/entity/player/PlayerAbilities.field_75098_d:Z
+      21: ifne          49
+      24: aload_0
+      25: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      28: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      31: invokestatic  #491                // Method com/github/standobyte/jojo/JojoModConfig.getCommonConfigInstance:(Z)Lcom/github/standobyte/jojo/JojoModConfig$Common;
+      34: getfield      #785                // Field com/github/standobyte/jojo/JojoModConfig$Common.skipStandProgression:Lnet/minecraftforge/common/ForgeConfigSpec$BooleanValue;
+      37: invokevirtual #496                // Method net/minecraftforge/common/ForgeConfigSpec$BooleanValue.get:()Ljava/lang/Object;
+      40: checkcast     #498                // class java/lang/Boolean
+      43: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+      46: ifeq          53
+      49: iconst_1
+      50: goto          54
+      53: iconst_0
+      54: ireturn
+
+  public boolean unlockAction(com.github.standobyte.jojo.action.stand.StandAction);
+    Code:
+       0: aload_0
+       1: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+       4: aload_1
+       5: aload_0
+       6: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+       9: invokevirtual #791                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.addEntry:(Lcom/github/standobyte/jojo/action/stand/StandAction;Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)Z
+      12: ifeq          58
+      15: aload_1
+      16: invokevirtual #796                // Method com/github/standobyte/jojo/action/stand/StandAction.isTrained:()Z
+      19: ifeq          32
+      22: aload_0
+      23: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      26: invokestatic  #306                // Method playerSkipsActionTraining:(Lnet/minecraft/entity/LivingEntity;)Z
+      29: ifeq          36
+      32: iconst_1
+      33: goto          37
+      36: iconst_0
+      37: istore_2
+      38: aload_0
+      39: aload_1
+      40: iload_2
+      41: ifeq          52
+      44: aload_1
+      45: aload_0
+      46: invokevirtual #799                // Method com/github/standobyte/jojo/action/stand/StandAction.getMaxTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      49: goto          53
+      52: fconst_0
+      53: invokevirtual #803                // Method setLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;F)V
+      56: iconst_1
+      57: ireturn
+      58: iconst_0
+      59: ireturn
+
+  public float getLearningProgressRatio(com.github.standobyte.jojo.action.Action<com.github.standobyte.jojo.power.impl.stand.IStandPower>);
+    Code:
+       0: aload_1
+       1: invokevirtual #812                // Method com/github/standobyte/jojo/action/Action.isTrained:()Z
+       4: ifeq          31
+       7: aload_1
+       8: instanceof    #793                // class com/github/standobyte/jojo/action/stand/StandAction
+      11: ifeq          31
+      14: aload_1
+      15: checkcast     #793                // class com/github/standobyte/jojo/action/stand/StandAction
+      18: astore_2
+      19: aload_0
+      20: aload_2
+      21: invokevirtual #816                // Method getLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;)F
+      24: aload_2
+      25: aload_0
+      26: invokevirtual #799                // Method com/github/standobyte/jojo/action/stand/StandAction.getMaxTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      29: fdiv
+      30: freturn
+      31: aload_0
+      32: aload_1
+      33: invokespecial #818                // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.getLearningProgressRatio:(Lcom/github/standobyte/jojo/action/Action;)F
+      36: freturn
+
+  public float getLearningProgressPoints(com.github.standobyte.jojo.action.stand.StandAction);
+    Code:
+       0: aload_0
+       1: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+       4: aload_1
+       5: aload_0
+       6: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+       9: invokevirtual #824                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.getLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)F
+      12: aload_1
+      13: aload_0
+      14: invokevirtual #799                // Method com/github/standobyte/jojo/action/stand/StandAction.getMaxTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      17: invokestatic  #830                // Method java/lang/Math.min:(FF)F
+      20: freturn
+
+  public void setLearningProgressPoints(com.github.standobyte.jojo.action.stand.StandAction, float);
+    Code:
+       0: aload_0
+       1: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+       4: aload_1
+       5: fload_2
+       6: aload_0
+       7: invokevirtual #833                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.setLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;FLcom/github/standobyte/jojo/power/impl/stand/IStandPower;)Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress$StandActionLearningEntry;
+      10: astore_3
+      11: aload_3
+      12: ifnull        78
+      15: aload_0
+      16: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      19: ifnull        78
+      22: aload_0
+      23: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      26: getfield      #205                // Field net/minecraft/entity/LivingEntity.field_70170_p:Lnet/minecraft/world/World;
+      29: invokevirtual #210                // Method net/minecraft/world/World.func_201670_d:()Z
+      32: ifne          78
+      35: aload_1
+      36: aload_0
+      37: aload_0
+      38: aload_1
+      39: invokevirtual #816                // Method getLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;)F
+      42: invokevirtual #837                // Method com/github/standobyte/jojo/action/stand/StandAction.onTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;F)V
+      45: aload_0
+      46: aload_1
+      47: invokevirtual #816                // Method getLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;)F
+      50: aload_1
+      51: aload_0
+      52: invokevirtual #799                // Method com/github/standobyte/jojo/action/stand/StandAction.getMaxTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      55: fcmpl
+      56: ifne          64
+      59: aload_1
+      60: aload_0
+      61: invokevirtual #840                // Method com/github/standobyte/jojo/action/stand/StandAction.onMaxTraining:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      64: aload_0
+      65: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      68: aload_0
+      69: aload_3
+      70: invokedynamic #848,  0            // InvokeDynamic #15:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress$StandActionLearningEntry;)Ljava/util/function/Consumer;
+      75: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      78: return
+
+  public void setLearningFromPacket(com.github.standobyte.jojo.network.packets.fromserver.StandActionLearningPacket);
+    Code:
+       0: aload_0
+       1: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+       4: aload_1
+       5: getfield      #858                // Field com/github/standobyte/jojo/network/packets/fromserver/StandActionLearningPacket.entry:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress$StandActionLearningEntry;
+       8: invokevirtual #862                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.setEntryDirectly:(Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress$StandActionLearningEntry;)V
+      11: aload_0
+      12: invokevirtual #250                // Method clUpdateHud:()V
+      15: return
+
+  public void addLearningProgressPoints(com.github.standobyte.jojo.action.stand.StandAction, float);
+    Code:
+       0: aload_0
+       1: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+       4: ifnull        40
+       7: fload_2
+       8: fconst_0
+       9: fcmpl
+      10: ifle          40
+      13: aload_0
+      14: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      17: getstatic     #642                // Field com/github/standobyte/jojo/init/ModStatusEffects.RESOLVE:Lnet/minecraftforge/fml/RegistryObject;
+      20: invokevirtual #647                // Method net/minecraftforge/fml/RegistryObject.get:()Lnet/minecraftforge/registries/IForgeRegistryEntry;
+      23: checkcast     #649                // class net/minecraft/potion/Effect
+      26: invokevirtual #653                // Method net/minecraft/entity/LivingEntity.func_70644_a:(Lnet/minecraft/potion/Effect;)Z
+      29: ifeq          40
+      32: fload_2
+      33: aload_1
+      34: aload_0
+      35: invokevirtual #868                // Method com/github/standobyte/jojo/action/stand/StandAction.resolveLearningMultiplier:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      38: fmul
+      39: fstore_2
+      40: aload_0
+      41: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      44: aload_1
+      45: aload_0
+      46: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      49: invokevirtual #824                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.getLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)F
+      52: fstore_3
+      53: fload_3
+      54: fload_2
+      55: fadd
+      56: fconst_0
+      57: invokestatic  #871                // Method java/lang/Math.max:(FF)F
+      60: fstore_2
+      61: aload_1
+      62: aload_0
+      63: invokevirtual #799                // Method com/github/standobyte/jojo/action/stand/StandAction.getMaxTrainingPoints:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)F
+      66: fstore        4
+      68: fload_3
+      69: fload         4
+      71: fcmpg
+      72: ifgt          82
+      75: fload_2
+      76: fload         4
+      78: invokestatic  #830                // Method java/lang/Math.min:(FF)F
+      81: fstore_2
+      82: aload_0
+      83: aload_1
+      84: fload_2
+      85: invokevirtual #803                // Method setLearningProgressPoints:(Lcom/github/standobyte/jojo/action/stand/StandAction;F)V
+      88: return
+
+  public void fullStandClear();
+    Code:
+       0: aload_0
+       1: new           #17                 // class com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress
+       4: dup
+       5: invokespecial #128                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress."<init>":()V
+       8: putfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      11: aload_0
+      12: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      15: invokevirtual #877                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.clearLevels:()V
+      18: aload_0
+      19: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      22: invokedynamic #882,  0            // InvokeDynamic #16:accept:()Ljava/util/function/Consumer;
+      27: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      30: aload_0
+      31: invokevirtual #355                // Method hasPower:()Z
+      34: ifne          42
+      37: aload_0
+      38: iconst_0
+      39: putfield      #102                // Field hadStand:Z
+      42: aload_0
+      43: getfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+      46: invokevirtual #884                // Method com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet.clear:()V
+      49: aload_0
+      50: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+      53: invokevirtual #885                // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler.clear:()V
+      56: return
+
+  public java.lang.Iterable<com.github.standobyte.jojo.action.stand.StandAction> getAllUnlockedActions();
+    Code:
+       0: aload_0
+       1: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+       4: aload_0
+       5: invokevirtual #891                // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.getAllUnlocked:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)Ljava/lang/Iterable;
+       8: areturn
+
+  public void setStandManifestation(com.github.standobyte.jojo.power.impl.stand.IStandManifestation);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+       5: aload_1
+       6: ifnull        20
+       9: aload_1
+      10: aload_0
+      11: invokevirtual #439                // Method getUser:()Lnet/minecraft/entity/LivingEntity;
+      14: aload_0
+      15: invokeinterface #898,  3          // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandManifestation.setUserAndPower:(Lnet/minecraft/entity/LivingEntity;Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      20: return
+
+  public com.github.standobyte.jojo.power.impl.stand.IStandManifestation getStandManifestation();
+    Code:
+       0: aload_0
+       1: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+       4: areturn
+
+  public void toggleSummon();
+    Code:
+       0: aload_0
+       1: invokevirtual #355                // Method hasPower:()Z
+       4: ifeq          18
+       7: aload_0
+       8: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      11: aload_0
+      12: invokevirtual #903                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.toggleSummon:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      15: goto          31
+      18: aload_0
+      19: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      22: aload_0
+      23: invokedynamic #908,  0            // InvokeDynamic #17:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Ljava/util/function/Consumer;
+      28: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      31: return
+
+  public boolean isLeapUnlocked();
+    Code:
+       0: aload_0
+       1: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+       4: invokedynamic #916,  0            // InvokeDynamic #18:apply:()Ljava/util/function/Function;
+       9: invokevirtual #174                // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+      12: iconst_0
+      13: invokestatic  #547                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      16: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      19: checkcast     #498                // class java/lang/Boolean
+      22: invokevirtual #501                // Method java/lang/Boolean.booleanValue:()Z
+      25: ifeq          44
+      28: aload_0
+      29: invokevirtual #919                // Method leapStrength:()F
+      32: f2d
+      33: ldc2_w        #920                // double 1.5d
+      36: dcmpl
+      37: iflt          44
+      40: iconst_1
+      41: goto          45
+      44: iconst_0
+      45: ireturn
+
+  public float leapStrength();
+    Code:
+       0: aload_0
+       1: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+       4: instanceof    #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+       7: ifeq          37
+      10: aload_0
+      11: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      14: checkcast     #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      17: astore_1
+      18: aload_1
+      19: invokevirtual #926                // Method com/github/standobyte/jojo/entity/stand/StandEntity.isArmsOnlyMode:()Z
+      22: ifne          37
+      25: aload_1
+      26: invokevirtual #929                // Method com/github/standobyte/jojo/entity/stand/StandEntity.isFollowingUser:()Z
+      29: ifeq          37
+      32: aload_1
+      33: invokevirtual #932                // Method com/github/standobyte/jojo/entity/stand/StandEntity.getLeapStrength:()F
+      36: freturn
+      37: fconst_0
+      38: freturn
+
+  public boolean canLeap();
+    Code:
+       0: aload_0
+       1: invokespecial #937                // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.canLeap:()Z
+       4: ifeq          49
+       7: aload_0
+       8: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      11: instanceof    #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      14: ifeq          33
+      17: aload_0
+      18: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      21: checkcast     #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      24: invokevirtual #940                // Method com/github/standobyte/jojo/entity/stand/StandEntity.getCurrentTask:()Ljava/util/Optional;
+      27: invokevirtual #184                // Method java/util/Optional.isPresent:()Z
+      30: ifne          47
+      33: aload_0
+      34: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+      37: invokevirtual #941                // Method com/github/standobyte/jojo/power/impl/stand/type/StandType.canLeap:()Z
+      40: ifeq          47
+      43: iconst_1
+      44: goto          48
+      47: iconst_0
+      48: ireturn
+      49: iconst_0
+      50: ireturn
+
+  public int getLeapCooldownPeriod();
+    Code:
+       0: aload_0
+       1: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+       4: instanceof    #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+       7: ifeq          45
+      10: aload_0
+      11: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      14: checkcast     #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      17: astore_1
+      18: aload_1
+      19: invokevirtual #926                // Method com/github/standobyte/jojo/entity/stand/StandEntity.isArmsOnlyMode:()Z
+      22: ifne          45
+      25: aload_1
+      26: invokevirtual #929                // Method com/github/standobyte/jojo/entity/stand/StandEntity.isFollowingUser:()Z
+      29: ifeq          45
+      32: aload_1
+      33: getstatic     #948                // Field net/minecraft/entity/ai/attributes/Attributes.field_233821_d_:Lnet/minecraft/entity/ai/attributes/Attribute;
+      36: invokevirtual #952                // Method com/github/standobyte/jojo/entity/stand/StandEntity.func_233637_b_:(Lnet/minecraft/entity/ai/attributes/Attribute;)D
+      39: dstore_2
+      40: dload_2
+      41: invokestatic  #956                // Method com/github/standobyte/jojo/entity/stand/StandStatFormulas.leapCooldown:(D)I
+      44: ireturn
+      45: iconst_0
+      46: ireturn
+
+  public void onLeap();
+    Code:
+       0: aload_0
+       1: invokespecial #961                // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.onLeap:()V
+       4: aload_0
+       5: ldc_w         #962                // float 250.0f
+       8: invokevirtual #965                // Method consumeStamina:(F)Z
+      11: pop
+      12: aload_0
+      13: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      16: instanceof    #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      19: ifeq          77
+      22: aload_0
+      23: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+      26: checkcast     #923                // class com/github/standobyte/jojo/entity/stand/StandEntity
+      29: astore_1
+      30: aload_1
+      31: invokevirtual #932                // Method com/github/standobyte/jojo/entity/stand/StandEntity.getLeapStrength:()F
+      34: ldc_w         #966                // float 2.4f
+      37: fdiv
+      38: fstore_2
+      39: aload_0
+      40: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+      43: aload_1
+      44: fload_2
+      45: invokedynamic #976,  0            // InvokeDynamic #19:apply:(Lcom/github/standobyte/jojo/entity/stand/StandEntity;F)Ljava/util/function/Function;
+      50: invokevirtual #174                // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+      53: aconst_null
+      54: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      57: checkcast     #978                // class net/minecraft/entity/player/ServerPlayerEntity
+      60: astore_3
+      61: aload_1
+      62: getstatic     #983                // Field com/github/standobyte/jojo/init/ModSounds.STAND_LEAP:Lnet/minecraftforge/fml/RegistryObject;
+      65: invokevirtual #647                // Method net/minecraftforge/fml/RegistryObject.get:()Lnet/minecraftforge/registries/IForgeRegistryEntry;
+      68: checkcast     #985                // class net/minecraft/util/SoundEvent
+      71: fload_2
+      72: fconst_1
+      73: aload_3
+      74: invokevirtual #989                // Method com/github/standobyte/jojo/entity/stand/StandEntity.playSound:(Lnet/minecraft/util/SoundEvent;FFLnet/minecraft/entity/player/PlayerEntity;)V
+      77: return
+
+  public void onDash();
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokespecial #996                // Method getDashCooldownPeriod:()I
+       5: invokevirtual #999                // Method setLeapCooldown:(I)V
+       8: aload_0
+       9: ldc_w         #1000               // float 25.0f
+      12: invokevirtual #965                // Method consumeStamina:(F)Z
+      15: pop
+      16: return
+
+  public net.minecraft.nbt.CompoundNBT writeNBT();
+    Code:
+       0: aload_0
+       1: invokespecial #1007               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.writeNBT:()Lnet/minecraft/nbt/CompoundNBT;
+       4: astore_1
+       5: aload_0
+       6: getfield      #96                 // Field standInstance:Ljava/util/Optional;
+       9: aload_1
+      10: invokedynamic #1015,  0           // InvokeDynamic #20:accept:(Lnet/minecraft/nbt/CompoundNBT;)Ljava/util/function/Consumer;
+      15: aload_0
+      16: aload_1
+      17: invokedynamic #1023,  0           // InvokeDynamic #21:run:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;Lnet/minecraft/nbt/CompoundNBT;)Ljava/lang/Runnable;
+      22: invokestatic  #1029               // Method com/github/standobyte/jojo/util/general/GeneralUtil.ifPresentOrElse:(Ljava/util/Optional;Ljava/util/function/Consumer;Ljava/lang/Runnable;)V
+      25: aload_1
+      26: ldc_w         #1031               // String HadStand
+      29: aload_0
+      30: getfield      #102                // Field hadStand:Z
+      33: invokevirtual #1037               // Method net/minecraft/nbt/CompoundNBT.func_74757_a:(Ljava/lang/String;Z)V
+      36: aload_0
+      37: invokevirtual #257                // Method usesStamina:()Z
+      40: ifeq          54
+      43: aload_1
+      44: ldc_w         #1039               // String Stamina
+      47: aload_0
+      48: getfield      #266                // Field stamina:F
+      51: invokevirtual #1043               // Method net/minecraft/nbt/CompoundNBT.func_74776_a:(Ljava/lang/String;F)V
+      54: aload_1
+      55: ldc_w         #1045               // String Resolve
+      58: aload_0
+      59: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      62: invokevirtual #1046               // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.writeNBT:()Lnet/minecraft/nbt/CompoundNBT;
+      65: invokevirtual #1050               // Method net/minecraft/nbt/CompoundNBT.func_218657_a:(Ljava/lang/String;Lnet/minecraft/nbt/INBT;)Lnet/minecraft/nbt/INBT;
+      68: pop
+      69: aload_1
+      70: ldc_w         #1052               // String Skipped
+      73: aload_0
+      74: getfield      #340                // Field skippedProgression:Z
+      77: invokevirtual #1037               // Method net/minecraft/nbt/CompoundNBT.func_74757_a:(Ljava/lang/String;Z)V
+      80: aload_1
+      81: ldc_w         #1054               // String ActionLearning
+      84: aload_0
+      85: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      88: invokevirtual #1057               // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.toNBT:()Lnet/minecraft/nbt/CompoundNBT;
+      91: invokevirtual #1050               // Method net/minecraft/nbt/CompoundNBT.func_218657_a:(Ljava/lang/String;Lnet/minecraft/nbt/INBT;)Lnet/minecraft/nbt/INBT;
+      94: pop
+      95: aload_1
+      96: ldc_w         #1059               // String Effects
+      99: aload_0
+     100: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+     103: invokevirtual #1060               // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.toNBT:()Lnet/minecraft/nbt/CompoundNBT;
+     106: invokevirtual #1050               // Method net/minecraft/nbt/CompoundNBT.func_218657_a:(Ljava/lang/String;Lnet/minecraft/nbt/INBT;)Lnet/minecraft/nbt/INBT;
+     109: pop
+     110: aload_1
+     111: ldc_w         #1062               // String PrevStands
+     114: aload_0
+     115: getfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+     118: invokevirtual #1063               // Method com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet.toNBT:()Lnet/minecraft/nbt/CompoundNBT;
+     121: invokevirtual #1050               // Method net/minecraft/nbt/CompoundNBT.func_218657_a:(Ljava/lang/String;Lnet/minecraft/nbt/INBT;)Lnet/minecraft/nbt/INBT;
+     124: pop
+     125: aload_1
+     126: ldc_w         #1065               // String ArrowHandler
+     129: aload_0
+     130: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+     133: invokevirtual #1066               // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler.toNBT:()Lnet/minecraft/nbt/CompoundNBT;
+     136: invokevirtual #1050               // Method net/minecraft/nbt/CompoundNBT.func_218657_a:(Ljava/lang/String;Lnet/minecraft/nbt/INBT;)Lnet/minecraft/nbt/INBT;
+     139: pop
+     140: aload_1
+     141: areturn
+
+  public void readNBT(net.minecraft.nbt.CompoundNBT);
+    Code:
+       0: aload_1
+       1: ldc_w         #1071               // String StandInstance
+       4: ldc_w         #1033               // class net/minecraft/nbt/CompoundNBT
+       7: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+      10: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+      13: ifeq          84
+      16: aload_1
+      17: ldc_w         #1071               // String StandInstance
+      20: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+      23: astore_3
+      24: aload_3
+      25: invokestatic  #1089               // Method com/github/standobyte/jojo/power/impl/stand/StandInstance.fromNBT:(Lnet/minecraft/nbt/CompoundNBT;)Lcom/github/standobyte/jojo/power/impl/stand/StandInstance;
+      28: astore_2
+      29: aload_2
+      30: ifnonnull     81
+      33: aload_0
+      34: aload_3
+      35: invokevirtual #1092               // Method net/minecraft/nbt/CompoundNBT.func_74737_b:()Lnet/minecraft/nbt/CompoundNBT;
+      38: invokestatic  #1095               // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+      41: putfield      #100                // Field invalidReadStandNbt:Ljava/util/Optional;
+      44: aload_3
+      45: ldc_w         #1097               // String StandType
+      48: ldc_w         #1099               // class net/minecraft/nbt/StringNBT
+      51: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+      54: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+      57: ifeq          81
+      60: aload_0
+      61: new           #1101               // class net/minecraft/util/ResourceLocation
+      64: dup
+      65: aload_3
+      66: ldc_w         #1097               // String StandType
+      69: invokevirtual #1105               // Method net/minecraft/nbt/CompoundNBT.func_74779_i:(Ljava/lang/String;)Ljava/lang/String;
+      72: invokespecial #1108               // Method net/minecraft/util/ResourceLocation."<init>":(Ljava/lang/String;)V
+      75: invokestatic  #1095               // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+      78: putfield      #98                 // Field invalidReadStandId:Ljava/util/Optional;
+      81: goto          96
+      84: aload_1
+      85: invokestatic  #1114               // Method com/github/standobyte/jojo/util/mod/LegacyUtil.readOldStandCapType:(Lnet/minecraft/nbt/CompoundNBT;)Ljava/util/Optional;
+      88: aconst_null
+      89: invokevirtual #177                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      92: checkcast     #45                 // class com/github/standobyte/jojo/power/impl/stand/StandInstance
+      95: astore_2
+      96: aload_0
+      97: aload_2
+      98: invokevirtual #218                // Method setStandInstance:(Lcom/github/standobyte/jojo/power/impl/stand/StandInstance;)V
+     101: aload_0
+     102: aload_1
+     103: ldc_w         #1031               // String HadStand
+     106: invokevirtual #1118               // Method net/minecraft/nbt/CompoundNBT.func_74767_n:(Ljava/lang/String;)Z
+     109: putfield      #102                // Field hadStand:Z
+     112: aload_0
+     113: invokevirtual #257                // Method usesStamina:()Z
+     116: ifeq          130
+     119: aload_0
+     120: aload_1
+     121: ldc_w         #1039               // String Stamina
+     124: invokevirtual #1122               // Method net/minecraft/nbt/CompoundNBT.func_74760_g:(Ljava/lang/String;)F
+     127: putfield      #266                // Field stamina:F
+     130: aload_0
+     131: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+     134: aload_1
+     135: ldc_w         #1045               // String Resolve
+     138: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+     141: invokevirtual #1125               // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.readNbt:(Lnet/minecraft/nbt/CompoundNBT;)V
+     144: aload_0
+     145: aload_1
+     146: ldc_w         #1052               // String Skipped
+     149: invokevirtual #1118               // Method net/minecraft/nbt/CompoundNBT.func_74767_n:(Ljava/lang/String;)Z
+     152: putfield      #340                // Field skippedProgression:Z
+     155: aload_1
+     156: ldc_w         #1054               // String ActionLearning
+     159: ldc_w         #1033               // class net/minecraft/nbt/CompoundNBT
+     162: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+     165: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+     168: ifeq          185
+     171: aload_0
+     172: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+     175: aload_1
+     176: ldc_w         #1054               // String ActionLearning
+     179: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+     182: invokevirtual #1127               // Method com/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress.fromNBT:(Lnet/minecraft/nbt/CompoundNBT;)V
+     185: aload_1
+     186: ldc_w         #1059               // String Effects
+     189: ldc_w         #1033               // class net/minecraft/nbt/CompoundNBT
+     192: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+     195: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+     198: ifeq          215
+     201: aload_0
+     202: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+     205: aload_1
+     206: ldc_w         #1059               // String Effects
+     209: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+     212: invokevirtual #1128               // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.fromNBT:(Lnet/minecraft/nbt/CompoundNBT;)V
+     215: aload_1
+     216: ldc_w         #1062               // String PrevStands
+     219: ldc_w         #1033               // class net/minecraft/nbt/CompoundNBT
+     222: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+     225: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+     228: ifeq          245
+     231: aload_0
+     232: getfield      #109                // Field previousStands:Lcom/github/standobyte/jojo/power/impl/stand/PreviousStandsSet;
+     235: aload_1
+     236: ldc_w         #1062               // String PrevStands
+     239: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+     242: invokevirtual #1129               // Method com/github/standobyte/jojo/power/impl/stand/PreviousStandsSet.fromNBT:(Lnet/minecraft/nbt/CompoundNBT;)V
+     245: aload_1
+     246: ldc_w         #1065               // String ArrowHandler
+     249: ldc_w         #1033               // class net/minecraft/nbt/CompoundNBT
+     252: invokestatic  #1077               // Method com/github/standobyte/jojo/util/mc/MCUtil.getNbtId:(Ljava/lang/Class;)I
+     255: invokevirtual #1081               // Method net/minecraft/nbt/CompoundNBT.func_150297_b:(Ljava/lang/String;I)Z
+     258: ifeq          275
+     261: aload_0
+     262: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+     265: aload_1
+     266: ldc_w         #1065               // String ArrowHandler
+     269: invokevirtual #1085               // Method net/minecraft/nbt/CompoundNBT.func_74775_l:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundNBT;
+     272: invokevirtual #1130               // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler.fromNBT:(Lnet/minecraft/nbt/CompoundNBT;)V
+     275: aload_0
+     276: aload_1
+     277: invokespecial #1132               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.readNBT:(Lnet/minecraft/nbt/CompoundNBT;)V
+     280: return
+
+  public void onClone(com.github.standobyte.jojo.power.impl.stand.IStandPower, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: invokespecial #1139               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.onClone:(Lcom/github/standobyte/jojo/power/IPower;Z)V
+       6: aload_1
+       7: checkcast     #2                  // class com/github/standobyte/jojo/power/impl/stand/StandPower
+      10: astore_3
+      11: aload_0
+      12: getfield      #114                // Field standArrowHandler:Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+      15: aload_1
+      16: invokeinterface #1141,  1         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandPower.getStandArrowHandler:()Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;
+      21: invokevirtual #1145               // Method com/github/standobyte/jojo/power/impl/stand/StandArrowHandler.keepOnDeath:(Lcom/github/standobyte/jojo/power/impl/stand/StandArrowHandler;)V
+      24: aload_0
+      25: aload_3
+      26: getfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      29: putfield      #130                // Field actionLearningProgressMap:Lcom/github/standobyte/jojo/power/impl/stand/StandActionLearningProgress;
+      32: aload_0
+      33: aload_3
+      34: getfield      #98                 // Field invalidReadStandId:Ljava/util/Optional;
+      37: putfield      #98                 // Field invalidReadStandId:Ljava/util/Optional;
+      40: aload_0
+      41: aload_3
+      42: getfield      #100                // Field invalidReadStandNbt:Ljava/util/Optional;
+      45: putfield      #100                // Field invalidReadStandNbt:Ljava/util/Optional;
+      48: return
+
+  protected void keepPower(com.github.standobyte.jojo.power.impl.stand.IStandPower, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: invokespecial #1152               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.keepPower:(Lcom/github/standobyte/jojo/power/IPower;Z)V
+       6: aload_1
+       7: invokeinterface #1153,  1         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandPower.getStandInstance:()Ljava/util/Optional;
+      12: aload_0
+      13: invokedynamic #1158,  0           // InvokeDynamic #22:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Ljava/util/function/Consumer;
+      18: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      21: aload_0
+      22: aload_1
+      23: invokeinterface #1160,  1         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandPower.getResolveCounter:()Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      28: invokevirtual #1162               // Method setResolveCounter:(Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;)V
+      31: iload_2
+      32: ifeq          42
+      35: aload_0
+      36: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      39: invokevirtual #1165               // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.alwaysResetOnDeath:()V
+      42: aload_0
+      43: aload_1
+      44: invokeinterface #1167,  1         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandPower.wasProgressionSkipped:()Z
+      49: putfield      #340                // Field skippedProgression:Z
+      52: aload_0
+      53: aload_1
+      54: invokeinterface #1169,  1         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandPower.getContinuousEffects:()Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      59: putfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      62: aload_0
+      63: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+      66: aload_0
+      67: invokevirtual #1172               // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.setPowerData:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;)V
+      70: aload_0
+      71: aload_0
+      72: invokevirtual #264                // Method getMaxStamina:()F
+      75: putfield      #266                // Field stamina:F
+      78: return
+
+  public void syncWithUserOnly();
+    Code:
+       0: aload_0
+       1: invokespecial #1175               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.syncWithUserOnly:()V
+       4: aload_0
+       5: getfield      #224                // Field serverPlayerUser:Ljava/util/Optional;
+       8: aload_0
+       9: invokedynamic #1180,  0           // InvokeDynamic #23:accept:(Lcom/github/standobyte/jojo/power/impl/stand/StandPower;)Ljava/util/function/Consumer;
+      14: invokevirtual #241                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      17: return
+
+  public void syncWithTrackingOrUser(net.minecraft.entity.player.ServerPlayerEntity);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #1183               // Method com/github/standobyte/jojo/power/impl/PowerBaseImpl.syncWithTrackingOrUser:(Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+       5: aload_0
+       6: invokevirtual #355                // Method hasPower:()Z
+       9: ifeq          115
+      12: aload_0
+      13: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      16: ifnull        54
+      19: new           #277                // class com/github/standobyte/jojo/network/packets/fromserver/TrTypeStandInstancePacket
+      22: dup
+      23: aload_0
+      24: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      27: invokevirtual #281                // Method net/minecraft/entity/LivingEntity.func_145782_y:()I
+      30: aload_0
+      31: invokevirtual #152                // Method getStandInstance:()Ljava/util/Optional;
+      34: invokevirtual #285                // Method java/util/Optional.get:()Ljava/lang/Object;
+      37: checkcast     #45                 // class com/github/standobyte/jojo/power/impl/stand/StandInstance
+      40: aload_0
+      41: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      44: invokevirtual #288                // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.getResolveLevel:()I
+      47: invokespecial #291                // Method com/github/standobyte/jojo/network/packets/fromserver/TrTypeStandInstancePacket."<init>":(ILcom/github/standobyte/jojo/power/impl/stand/StandInstance;I)V
+      50: aload_1
+      51: invokestatic  #1186               // Method com/github/standobyte/jojo/network/PacketManager.sendToClient:(Ljava/lang/Object;Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+      54: aload_0
+      55: invokevirtual #257                // Method usesStamina:()Z
+      58: ifeq          83
+      61: new           #513                // class com/github/standobyte/jojo/network/packets/fromserver/TrStaminaPacket
+      64: dup
+      65: aload_0
+      66: getfield      #199                // Field user:Lnet/minecraft/entity/LivingEntity;
+      69: invokevirtual #281                // Method net/minecraft/entity/LivingEntity.func_145782_y:()I
+      72: aload_0
+      73: getfield      #266                // Field stamina:F
+      76: invokespecial #516                // Method com/github/standobyte/jojo/network/packets/fromserver/TrStaminaPacket."<init>":(IF)V
+      79: aload_1
+      80: invokestatic  #1186               // Method com/github/standobyte/jojo/network/PacketManager.sendToClient:(Ljava/lang/Object;Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+      83: aload_0
+      84: invokevirtual #269                // Method usesResolve:()Z
+      87: ifeq          98
+      90: aload_0
+      91: getfield      #135                // Field resolveCounter:Lcom/github/standobyte/jojo/power/impl/stand/ResolveCounter;
+      94: aload_1
+      95: invokevirtual #1187               // Method com/github/standobyte/jojo/power/impl/stand/ResolveCounter.syncWithTrackingOrUser:(Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+      98: aload_0
+      99: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+     102: ifnull        115
+     105: aload_0
+     106: getfield      #116                // Field standManifestation:Lcom/github/standobyte/jojo/power/impl/stand/IStandManifestation;
+     109: aload_1
+     110: invokeinterface #1188,  2         // InterfaceMethod com/github/standobyte/jojo/power/impl/stand/IStandManifestation.syncWithTrackingOrUser:(Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+     115: aload_0
+     116: getfield      #127                // Field continuousEffects:Lcom/github/standobyte/jojo/power/impl/stand/StandEffectsTracker;
+     119: aload_1
+     120: invokevirtual #1189               // Method com/github/standobyte/jojo/power/impl/stand/StandEffectsTracker.syncWithTrackingOrUser:(Lnet/minecraft/entity/player/ServerPlayerEntity;)V
+     123: return
+
+  protected void keepPower(com.github.standobyte.jojo.power.IPower, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #7                  // class com/github/standobyte/jojo/power/impl/stand/IStandPower
+       5: iload_2
+       6: invokevirtual #1191               // Method keepPower:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;Z)V
+       9: return
+
+  public void onClone(com.github.standobyte.jojo.power.IPower, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #7                  // class com/github/standobyte/jojo/power/impl/stand/IStandPower
+       5: iload_2
+       6: invokevirtual #1193               // Method onClone:(Lcom/github/standobyte/jojo/power/impl/stand/IStandPower;Z)V
+       9: return
+
+  protected void onNewPowerGiven(com.github.standobyte.jojo.power.IPowerType);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #179                // class com/github/standobyte/jojo/power/impl/stand/type/StandType
+       5: invokevirtual #221                // Method onNewPowerGiven:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)V
+       8: return
+
+  public net.minecraft.nbt.INBT writeNBT();
+    Code:
+       0: aload_0
+       1: invokevirtual #1195               // Method writeNBT:()Lnet/minecraft/nbt/CompoundNBT;
+       4: areturn
+
+  public com.github.standobyte.jojo.power.IPowerType getType();
+    Code:
+       0: aload_0
+       1: invokevirtual #322                // Method getType:()Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;
+       4: areturn
+
+  public boolean givePower(com.github.standobyte.jojo.power.IPowerType);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #179                // class com/github/standobyte/jojo/power/impl/stand/type/StandType
+       5: invokevirtual #1198               // Method givePower:(Lcom/github/standobyte/jojo/power/impl/stand/type/StandType;)Z
+       8: ireturn
+}

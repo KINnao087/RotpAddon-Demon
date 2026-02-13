@@ -15,45 +15,54 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 	@Override
     protected RotationAngle[][] initSummonPoseRotations() {
         return new RotationAngle[][] {
+//			new RotationAngle[] {
+//					new RotationAngle(body, 0.0F, 0.7854F, 0.0F),
+//					new RotationAngle(leftArm, 0.0F, 0.0F, -0.9599F),
+//					new RotationAngle(leftForeArm, 0.0F, 1.5708F, 0.7418F),
+//					new RotationAngle(rightArm, -1.5708F, 0.7854F, 0.0F),
+//					new RotationAngle(rightForeArm, 0.0F, 0.0F, -1.5708F),
+//					new RotationAngle(leftLeg, -0.3054F, 0.0F, 0.0F),
+//					new RotationAngle(leftLowerLeg, 0.48F, 0.0F, 0.0F),
+//					new RotationAngle(rightLeg, 0.3927F, 0.0F, 0.0F),
+//					new RotationAngle(rightLowerLeg, 0.3054F, 0.0F, 0.0F),
+//			},
+//			new RotationAngle[] {
+//					new RotationAngle(head, -0.2618F, 0.0F, 0.0F),
+//					new RotationAngle(leftArm, -2.3562F, 1.2217F, -1.5708F),
+//					new RotationAngle(leftForeArm, -1.9635F, -0.3747F, 0.2291F),
+//					new RotationAngle(rightArm, 0.0F, 0.2182F, 0.7854F),
+//					new RotationAngle(rightForeArm, 0.2618F, 0.0F, -1.5708F),
+//					new RotationAngle(leftLeg, -1.6581F, 0.0F, 0.0F),
+//					new RotationAngle(leftLegJoint, 0.7418F, 0.0F, 0.0F),
+//					new RotationAngle(leftLowerLeg, 1.789F, 0.0F, 0.0F),
+//					new RotationAngle(rightLeg, -0.1745F, 0.0F, 0.0F),
+//					new RotationAngle(rightLowerLeg, 0.3491F, 0.0F, 0.0F),
+//			},
 			new RotationAngle[] {
 					new RotationAngle(body, 0.0F, 0.7854F, 0.0F),
-					new RotationAngle(leftArm, 0.0F, 0.0F, -0.9599F),
-					new RotationAngle(leftForeArm, 0.0F, 1.5708F, 0.7418F),
-					new RotationAngle(rightArm, -1.5708F, 0.7854F, 0.0F),
-					new RotationAngle(rightForeArm, 0.0F, 0.0F, -1.5708F),
-					new RotationAngle(leftLeg, -0.3054F, 0.0F, 0.0F),
-					new RotationAngle(leftLowerLeg, 0.48F, 0.0F, 0.0F),
-					new RotationAngle(rightLeg, 0.3927F, 0.0F, 0.0F),
-					new RotationAngle(rightLowerLeg, 0.3054F, 0.0F, 0.0F),
-			},
-			new RotationAngle[] {
-					new RotationAngle(head, -0.2618F, 0.0F, 0.0F),
-					new RotationAngle(leftArm, -2.3562F, 1.2217F, -1.5708F),
-					new RotationAngle(leftForeArm, -1.9635F, -0.3747F, 0.2291F),
-					new RotationAngle(rightArm, 0.0F, 0.2182F, 0.7854F),
-					new RotationAngle(rightForeArm, 0.2618F, 0.0F, -1.5708F),
-					new RotationAngle(leftLeg, -1.6581F, 0.0F, 0.0F),
-					new RotationAngle(leftLegJoint, 0.7418F, 0.0F, 0.0F),
-					new RotationAngle(leftLowerLeg, 1.789F, 0.0F, 0.0F),
-					new RotationAngle(rightLeg, -0.1745F, 0.0F, 0.0F),
-					new RotationAngle(rightLowerLeg, 0.3491F, 0.0F, 0.0F),
-			},
-			new RotationAngle[] {
-					
-					new RotationAngle(body, 0.0F, 0.7854F, 0.0F),
-
 					new RotationAngle(leftArm,      -0.7094236F,  0.37985975F,  0.36786723F),
 					new RotationAngle(leftForeArm,   0.0F,         0.0F,         0.87266463F),
-
 					new RotationAngle(rightArm,     -0.93040955F, -0.28396752F, -0.20580888F),
 					new RotationAngle(rightForeArm, -0.2617994F,  -0.21816616F, -1.3526301F),
-
 					new RotationAngle(leftLeg,      -0.08726646F,  0.0F,        -0.1308997F),
 					new RotationAngle(leftLowerLeg,  0.1308997F,   0.0F,         0.0F),
-
 					new RotationAngle(rightLeg,     -0.08726646F,  0.0F,         0.08726646F),
 					new RotationAngle(rightLowerLeg, 0.1308997F,   0.0F,         0.0F),
-			}
+			},
+
+			new RotationAngle[] {
+					new RotationAngle(head, -0.39269908F, 0.0F, 0.0F),          // -22.5°
+					new RotationAngle(body, 0.0F, -0.08726646F, 0.0F),          // -5°
+					new RotationAngle(leftArm,     -1.67575956F,  0.80855694F, -1.78530358F),
+					new RotationAngle(leftForeArm, -0.17453293F,  0.0F,         0.0F),
+					new RotationAngle(rightArm,    -2.34489121F,  0.51566940F,  0.16016555F),
+					new RotationAngle(rightForeArm,-0.52359878F,  0.0F,         0.0F),
+					new RotationAngle(leftLeg,      0.12277414F, -0.38354396F, -0.57372952F),
+					new RotationAngle(leftLowerLeg, 0.43633231F,  0.0F,         0.0F),
+					new RotationAngle(rightLeg,     0.26179939F,  0.30543262F,  0.43633231F),
+					new RotationAngle(rightLowerLeg,0.26179939F,  0.0F,         0.0F),
+					new RotationAngle(rightLegJoint,0.0F,         0.0F,         0.08726646F) // +5°
+			},
 		};
     }
 
