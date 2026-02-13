@@ -9,11 +9,12 @@ import net.minecraft.entity.LivingEntity;
  * Safe by design: null checks + clamp.
  */
 public final class FearScaling {
+    public static final float maxLine = 200f;
 
     private FearScaling() {}
 
     public static double computeMultiplier(LivingEntity user, Stat stat) {
-        double t = getFearRatioSafe(user); // 0..1
+        double t = getFearRatioSafe(user, maxLine); // 0..1
 
         // Example curve: higher fear => weaker.
         switch (stat) {
@@ -32,12 +33,12 @@ public final class FearScaling {
         }
     }
 
-    private static double getFearRatioSafe(LivingEntity user) {
+    private static double getFearRatioSafe(LivingEntity user, float maxLine) {
         try {
             FearPower fear = MyUtils.getFearPower(user);
             if (fear == null) return 0.0;
 
-            float max = fear.getMaxFear();
+            float max = maxLine;
             float cur = fear.getFear();
             if (max <= 1e-6f) return 0.0;
 
@@ -50,8 +51,9 @@ public final class FearScaling {
         }
     }
 
-    private static double lerp(double a, double b, double t) {
-        return a + (b - a) * t;
+    private static double lerp(double base, double max, double t) {
+        if (t <= 1) return base + (max - base) * t;
+        return max;
     }
 
     private static double clamp01(double v) {

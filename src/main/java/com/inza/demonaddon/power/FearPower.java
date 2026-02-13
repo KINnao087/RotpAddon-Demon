@@ -9,7 +9,7 @@ public class FearPower {
 
     public FearPower() {
         fear = 0;
-        maxFear = 200f;
+        maxFear = 300f;
         fearCostPerTick = 0f; // default 1 per second
     }
 
