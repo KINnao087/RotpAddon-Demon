@@ -1,13 +1,11 @@
 package com.inza.demonaddon.action.domain;
 
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
-import com.inza.demonaddon.network.AddonNetwork;
-import com.inza.demonaddon.network.packet.S2CForceCloseDomainPacket;
+import com.inza.demonaddon.action.domain.network.packet.S2CForceCloseDomainPacket;
+import com.inza.demonaddon.AddonNetwork;
 import com.inza.demonaddon.init.InitStands;
 import com.inza.demonaddon.utils.ClientUtils;
 import com.inza.demonaddon.utils.MyUtils;
-import com.inza.demonaddon.utils.ServerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

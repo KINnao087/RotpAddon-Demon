@@ -1,4 +1,4 @@
-package com.inza.demonaddon.network.packet;
+package com.inza.demonaddon.action.demonview.network.packet;
 
 import com.inza.demonaddon.action.demonview.client.DemonViewClientState;
 
@@ -30,7 +30,8 @@ public class S2CDemonVisionPacket {
     public static void handle(S2CDemonVisionPacket msg, java.util.function.Supplier<net.minecraftforge.fml.network.NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-            if (mc.level == null) return;
+            if (mc.level == null || mc.player == null) return;
+            if (!mc.player.getUUID().equals(msg.casterUuid)) return;
 
             if (!msg.enabled) {
                 DemonViewClientState.enabled = false;

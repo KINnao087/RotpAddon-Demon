@@ -1,6 +1,6 @@
 {
-  "entity.demonaddon.demon_stand": "我将直面恐惧",
-  "stand.demonaddon.demon_stand": "我将直面恐惧",
+  "entity.demonaddon.demon_stand": "誓破心障",
+  "stand.demonaddon.demon_stand": "誓破心障",
   "action.demonaddon.demon_stand_punch": "挥拳",
   "action.demonaddon.demon_stand_barrage": "连打",
   "action.demonaddon.demon_stand_finisher_punch": "重击",
@@ -9,5 +9,7 @@
   "action.demonaddon.domain": "暗指束缚",
   "action.demonaddon.domain_close": "收回",
   "action.demonaddon.demon_stand_block": "格挡",
-  "action.demonaddon.demon_stand_freeze": "静滞之暗"
+  "action.demonaddon.demon_stand_freeze": "静滞之暗",
+  "action.demonaddon.demon_view": "暗之窥探"
+
 }

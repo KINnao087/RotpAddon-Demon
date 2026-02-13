@@ -1,7 +1,6 @@
-package com.inza.demonaddon.action.domain.beans;
+package com.inza.demonaddon.action.domain;
 import java.util.UUID;
 
-import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 

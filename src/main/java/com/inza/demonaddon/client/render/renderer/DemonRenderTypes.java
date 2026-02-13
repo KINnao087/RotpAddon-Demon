@@ -15,12 +15,12 @@ public final class DemonRenderTypes {
             new com.github.standobyte.jojo.client.render.rendertype.ModifiedRenderType(
                     RenderType.entityTranslucent(WHITE_TEX),
                     () -> {
-                        // Disable depth test so it renders through walls
+                        
                         RenderSystem.disableDepthTest();
-                        RenderSystem.depthMask(false); // Don't write to depth buffer
+                        RenderSystem.depthMask(false); 
                     },
                     () -> {
-                        // Restore state
+                        
                         RenderSystem.depthMask(true);
                         RenderSystem.enableDepthTest();
                     },

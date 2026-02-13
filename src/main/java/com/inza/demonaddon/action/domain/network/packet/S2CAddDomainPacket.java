@@ -1,8 +1,8 @@
-package com.inza.demonaddon.network.packet;
+package com.inza.demonaddon.action.domain.network.packet;
 
 import java.util.UUID;
 
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 import com.inza.demonaddon.action.domain.client.DomainClientState;
 
 import net.minecraft.network.PacketBuffer;

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;

@@ -20,8 +20,6 @@ public class InitSounds {
     public static final RegistryObject<SoundEvent> DEMON_STAND_SUMMON_VOICELINE = SOUNDS.register("demon_stand_summon_voiceline", 
             () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "demon_stand_summon_voiceline")));
 
-    public static final Supplier<SoundEvent> DEMON_STAND_SUMMON_SOUND = ModSounds.STAR_PLATINUM_SUMMON;
-    
     public static final Supplier<SoundEvent> DEMON_STAND_UNSUMMON_SOUND = ModSounds.THE_WORLD_UNSUMMON;
     
     public static final Supplier<SoundEvent> DEMON_STAND_PUNCH_LIGHT = ModSounds.STAND_PUNCH_LIGHT;
@@ -47,6 +45,9 @@ public class InitSounds {
 
     public static final Supplier<SoundEvent> DEMON_VIEW = SOUNDS.register("demon_view",
             () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "demon_view")));
+
+    public static final Supplier<SoundEvent> DEMON_STAND_SUMMON = SOUNDS.register("demon_stand_summon",
+            () -> new SoundEvent(new ResourceLocation(AddonMain.MOD_ID, "demon_stand_summon")));
 
     public static final OstSoundList DEMON_STAND_OST = new OstSoundList(
             new ResourceLocation(AddonMain.MOD_ID, "example_stand_ost"), SOUNDS);

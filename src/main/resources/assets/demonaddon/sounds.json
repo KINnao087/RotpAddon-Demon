@@ -1,4 +1,9 @@
 {
+  "demon_stand_summon": {
+    "subtitle": "demonaddon.subtitle.demon_stand_summon.name",
+    "sounds": [ "demonaddon:demon_stand_summon" ]
+  },
+
   "domain_expand": {
     "subtitle": "demonaddon.subtitle.domain_expand.name",
     "sounds": [ "demonaddon:domain_expand" ]

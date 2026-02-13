@@ -37,12 +37,12 @@ public class FearGUI {
             ratio = Math.max(0f, Math.min(1f, ratio));
             int fill = (int) (ratio * barWidth);
 
-            AbstractGui.fill(ms, x - 1, y - 1, x + barWidth + 1, y + barHeight + 1, 0xAA000000);
-            AbstractGui.fill(ms, x, y, x + barWidth, y + barHeight, 0xFF2B1E24);
-            AbstractGui.fill(ms, x, y, x + fill, y + barHeight, 0xFFE1395F);
+            AbstractGui.fill(ms, x - 1, y - 1, x + barWidth + 1, y + barHeight + 1, 0xFF0A0608); // border-ish dark
+            AbstractGui.fill(ms, x, y, x + barWidth, y + barHeight, 0xFF141014); // deep dark base
+            AbstractGui.fill(ms, x, y, x + fill, y + barHeight, 0xFF7A0E1E); // deep red
 
-            String label = String.format("Fear %.0f / %.0f", fear.getFear(), fear.getMaxFear());
-            mc.font.drawShadow(ms, label, x, y - 10, 0xFFF8DDE4);
+            String label = String.format("FearPower %.0f / %.0f", fear.getFear(), fear.getMaxFear());
+            mc.font.drawShadow(ms, label, x, y - 10, 0xFFFFFFFF);
         });
     }
 }

@@ -1,6 +1,6 @@
 package com.inza.demonaddon.action.freeze.network.packet;
 
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 import com.inza.demonaddon.action.freeze.client.FreezeClientState;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.vector.Vector3d;

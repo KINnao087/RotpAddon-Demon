@@ -6,7 +6,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 import com.inza.demonaddon.action.freeze.network.FreezeNetwork;
 import com.inza.demonaddon.action.freeze.network.packet.S2CAddFreezeDomainPacket;
 import com.inza.demonaddon.power.FearPower;

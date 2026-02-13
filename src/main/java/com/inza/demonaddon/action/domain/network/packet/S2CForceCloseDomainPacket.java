@@ -1,4 +1,4 @@
-package com.inza.demonaddon.network.packet;
+package com.inza.demonaddon.action.domain.network.packet;
 
 import java.util.UUID;
 import java.util.function.Supplier;

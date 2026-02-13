@@ -1,10 +1,9 @@
-package com.inza.demonaddon.network;
+package com.inza.demonaddon;
 
-import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.network.packet.S2CAddDomainPacket;
-import com.inza.demonaddon.network.packet.S2CDemonVisionPacket;
-import com.inza.demonaddon.network.packet.S2CFearSyncPacket;
-import com.inza.demonaddon.network.packet.S2CForceCloseDomainPacket;
+import com.inza.demonaddon.action.demonview.network.packet.S2CDemonVisionPacket;
+import com.inza.demonaddon.action.domain.network.packet.S2CAddDomainPacket;
+import com.inza.demonaddon.action.domain.network.packet.S2CForceCloseDomainPacket;
+import com.inza.demonaddon.power.network.packet.S2CFearSyncPacket;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;

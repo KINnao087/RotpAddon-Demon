@@ -3,9 +3,10 @@ package com.inza.demonaddon.action.demonview;
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.action.ActionTarget;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
-import com.inza.demonaddon.network.AddonNetwork;
-import com.inza.demonaddon.network.packet.S2CDemonVisionPacket;
+import com.inza.demonaddon.action.demonview.network.packet.S2CDemonVisionPacket;
+import com.inza.demonaddon.AddonNetwork;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 
@@ -32,8 +33,9 @@ public class DemonViewAction extends StandEntityAction {
     }
 
     private void sendVisionPacket(LivingEntity caster, boolean enabled) {
+        if (!(caster instanceof ServerPlayerEntity)) return;
         AddonNetwork.CHANNEL.send(
-                PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> caster),
+                PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) caster),
                 new S2CDemonVisionPacket(enabled, caster.getUUID(), enabled ? expandRadius : 0.0F)
         );
     }

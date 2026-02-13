@@ -40,7 +40,7 @@ public final class DomainRenderer {
         BufferBuilder bb = tess.getBuilder();
         bb.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_COLOR);
 
-        // lat: [-pi/2, pi/2], lon: [0, 2pi)
+        
         for (int i = 0; i < LAT; i++) {
             double v0 = (double) i / (double) LAT;
             double v1 = (double) (i + 1) / (double) LAT;
@@ -68,7 +68,7 @@ public final class DomainRenderer {
                 double x11 = c1 * Math.cos(theta1);
                 double z11 = c1 * Math.sin(theta1);
 
-                // quad -> 2 triangles
+                
                 v(bb, mat, (float) (x00 * radius), (float) (y0 * radius), (float) (z00 * radius), r, g, b, a);
                 v(bb, mat, (float) (x10 * radius), (float) (y1 * radius), (float) (z10 * radius), r, g, b, a);
                 v(bb, mat, (float) (x11 * radius), (float) (y1 * radius), (float) (z11 * radius), r, g, b, a);

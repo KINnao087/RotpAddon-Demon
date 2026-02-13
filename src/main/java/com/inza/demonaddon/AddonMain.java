@@ -1,7 +1,5 @@
 package com.inza.demonaddon;
 
-import com.inza.demonaddon.network.AddonNetwork;
-
 import com.inza.demonaddon.action.freeze.network.FreezeNetwork;
 import com.inza.demonaddon.init.*;
 
@@ -41,7 +39,7 @@ public class AddonMain {
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
 
-        InitCapabilitys.init(modEventBus);
+        InitCapabilities.init(modEventBus);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapability);
 
         AddonNetwork.init();
@@ -49,7 +47,7 @@ public class AddonMain {
     }
 
     public void attachCapability(AttachCapabilitiesEvent<LivingEntity> event) {
-        if (event.getObject() instanceof LivingEntity) {
+        if (event.getObject() != null) {
             LivingEntity entity = (LivingEntity) event.getObject();
             if (!entity.getCapability(FearPowerProvider.FEAR_POWER_CAPABILITY).isPresent()) {
                 event.addCapability(new ResourceLocation(AddonMain.MOD_ID, "fear_power"), new FearPowerProvider());

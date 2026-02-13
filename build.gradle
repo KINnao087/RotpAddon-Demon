@@ -155,8 +155,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-	implementation fg.deobf("standobyte.jojo:JJBA-RipplesOfThePast:${main_mod_version}")
-//	implementation fg.deobf(files("libs/JJBA-RipplesOfThePast-1.16.5-0.2.2.2.jar"))
+//	implementation fg.deobf("standobyte.jojo:JJBA-RipplesOfThePast:${main_mod_version}")
+	implementation fg.deobf("local:JJBA-RipplesOfThePast:1.16.5-0.2.2.2")
 	compileOnly 'team.unnamed:mocha:3.0.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

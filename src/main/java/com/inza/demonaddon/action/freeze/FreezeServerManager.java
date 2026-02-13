@@ -5,7 +5,7 @@ import com.github.standobyte.jojo.capability.world.WorldUtilCapProvider;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.util.mc.MCUtil;
 import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 import com.inza.demonaddon.action.freeze.network.FreezeNetwork;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

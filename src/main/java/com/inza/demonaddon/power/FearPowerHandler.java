@@ -2,12 +2,11 @@ package com.inza.demonaddon.power;
 
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.network.AddonNetwork;
-import com.inza.demonaddon.network.packet.S2CFearSyncPacket;
+import com.inza.demonaddon.AddonNetwork;
+import com.inza.demonaddon.power.network.packet.S2CFearSyncPacket;
 import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.TickEvent;
@@ -34,15 +33,10 @@ public class FearPowerHandler {
             if (!(owner instanceof LivingEntity)) return;
 
             MyUtils.getFearCap(owner).ifPresent(fear -> {
-                float before = fear.getFear();
                 fear.addFear(5f);
 
                 if (!MyUtils.hasMyStand(owner)) {return;}
-
-                AddonNetwork.CHANNEL.send(
-                        PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) owner),
-                        new S2CFearSyncPacket(fear.getFear(), fear.getMaxFear())
-                );
+                syncFearToTracking(owner, fear);
             });
             return;
         }
@@ -51,13 +45,7 @@ public class FearPowerHandler {
         if (!MyUtils.hasMyStand(attacker)) return;
         MyUtils.getFearCap((LivingEntity) attacker).ifPresent(fear -> {
             fear.addFear(5f);
-
-            if (!(attacker instanceof ServerPlayerEntity)) {return;}
-
-            AddonNetwork.CHANNEL.send(
-                    PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) attacker),
-                    new S2CFearSyncPacket(fear.getFear(), fear.getMaxFear())
-            );
+            syncFearToTracking((LivingEntity) attacker, fear);
         });
     }
 
@@ -88,10 +76,17 @@ public class FearPowerHandler {
             if (player.connection == null) return; // avoid login/respawn edge cases
 
             AddonNetwork.CHANNEL.sendTo(
-                    new S2CFearSyncPacket(fear.getFear(), fear.getMaxFear()),
+                    new S2CFearSyncPacket(player.getId(), fear.getFear(), fear.getMaxFear()),
                     player.connection.connection,
                     NetworkDirection.PLAY_TO_CLIENT
             );
         });
+    }
+
+    private static void syncFearToTracking(LivingEntity entity, FearPower fear) {
+        AddonNetwork.CHANNEL.send(
+                PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity),
+                new S2CFearSyncPacket(entity.getId(), fear.getFear(), fear.getMaxFear())
+        );
     }
 }

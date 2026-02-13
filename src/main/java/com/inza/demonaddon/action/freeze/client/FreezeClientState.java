@@ -1,7 +1,7 @@
 package com.inza.demonaddon.action.freeze.client;
 
 import com.inza.demonaddon.AddonMain;
-import com.inza.demonaddon.action.domain.beans.DomainInstance;
+import com.inza.demonaddon.action.domain.DomainInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;

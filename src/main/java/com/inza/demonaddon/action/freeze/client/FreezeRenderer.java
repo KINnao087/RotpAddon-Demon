@@ -20,12 +20,12 @@ public final class FreezeRenderer {
     public static int TINT_G = 50;
     public static int TINT_B = 50;
 
-    /**
-     * 画一个“偏色反色球壳”（只靠 blend）：
-     * - 覆盖到的屏幕区域：out = tint * (1 - dst)
-     * - tint=白色 => 纯反色 out = (1 - dst)
-     * - 只画单面：外部看外表面；内部看内表面，避免双面叠加抵消
-     */
+    
+
+
+
+
+
     public static void renderInvertSphere(MatrixStack ms,
                                           Vector3d cameraPos,
                                           Vector3d center,
@@ -37,10 +37,10 @@ public final class FreezeRenderer {
         ms.pushPose();
         ms.translate(center.x - cameraPos.x, center.y - cameraPos.y, center.z - cameraPos.z);
 
-        // ===== Render State =====
+        
         RenderSystem.enableBlend();
 
-        // 偏色反色的关键：out = src * (1 - dst)
+        
         RenderSystem.blendFunc(
                 GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
                 GlStateManager.DestFactor.ZERO
@@ -64,7 +64,7 @@ public final class FreezeRenderer {
         int r = clamp255(TINT_R);
         int g = clamp255(TINT_G);
         int b = clamp255(TINT_B);
-        int a = 255; // 这里 alpha 基本没啥用（factor 不吃 SRC_ALPHA），留着无害
+        int a = 255; 
 
         for (int i = 0; i < LAT; i++) {
             double v0 = (double) i / (double) LAT;
@@ -93,7 +93,7 @@ public final class FreezeRenderer {
                 double x11 = c1 * Math.cos(theta1);
                 double z11 = c1 * Math.sin(theta1);
 
-                // quad -> 2 triangles
+                
                 v(bb, mat, (float) (x00 * radius), (float) (y0 * radius), (float) (z00 * radius), r, g, b, a);
                 v(bb, mat, (float) (x10 * radius), (float) (y1 * radius), (float) (z10 * radius), r, g, b, a);
                 v(bb, mat, (float) (x11 * radius), (float) (y1 * radius), (float) (z11 * radius), r, g, b, a);
@@ -106,7 +106,7 @@ public final class FreezeRenderer {
 
         tess.end();
 
-        // ===== Restore State =====
+        
         RenderSystem.enableTexture();
         RenderSystem.depthMask(true);
 

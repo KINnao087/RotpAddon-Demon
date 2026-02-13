@@ -4,7 +4,6 @@ import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.action.stand.*;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 import com.github.standobyte.jojo.entity.stand.StandPose;
-import com.github.standobyte.jojo.init.ModSounds;
 import com.github.standobyte.jojo.init.power.stand.EntityStandRegistryObject;
 import com.github.standobyte.jojo.init.power.stand.ModStandsInit;
 import com.github.standobyte.jojo.power.impl.stand.StandInstance.StandPart;
@@ -135,7 +134,7 @@ public class InitStands {
                 
                 InitEntities.ENTITIES,
                 () -> new StandEntityType<DemonStandEntity>(DemonStandEntity::new, 0.7F * 1.01F, 2.1F * 1.01F)
-                .summonSound(InitSounds.DEMON_STAND_SUMMON_SOUND)
+                .summonSound(InitSounds.DEMON_STAND_SUMMON)
                 .unsummonSound(InitSounds.DEMON_STAND_UNSUMMON_SOUND))
         .withDefaultStandAttributes();
 

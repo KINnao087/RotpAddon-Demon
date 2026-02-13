@@ -14,7 +14,7 @@ public class DemonViewRenderTypes {
             new com.github.standobyte.jojo.client.render.rendertype.ModifiedRenderType(
                     RenderType.entityTranslucent(WHITE_TEX),
                     () -> {
-                        // Setup state: through walls
+                        
                         RenderSystem.enableBlend();
                         RenderSystem.disableDepthTest();
                         RenderSystem.depthMask(false);
@@ -22,7 +22,7 @@ public class DemonViewRenderTypes {
                         RenderHelper.turnOff();
                     },
                     () -> {
-                        // Restore state
+                        
                         RenderHelper.turnBackOn();
                         RenderSystem.depthMask(true);
                         RenderSystem.enableDepthTest();

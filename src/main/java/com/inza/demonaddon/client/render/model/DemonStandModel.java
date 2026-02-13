@@ -37,6 +37,22 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 					new RotationAngle(leftLowerLeg, 1.789F, 0.0F, 0.0F),
 					new RotationAngle(rightLeg, -0.1745F, 0.0F, 0.0F),
 					new RotationAngle(rightLowerLeg, 0.3491F, 0.0F, 0.0F),
+			},
+			new RotationAngle[] {
+					
+					new RotationAngle(body, 0.0F, 0.7854F, 0.0F),
+
+					new RotationAngle(leftArm,      -0.7094236F,  0.37985975F,  0.36786723F),
+					new RotationAngle(leftForeArm,   0.0F,         0.0F,         0.87266463F),
+
+					new RotationAngle(rightArm,     -0.93040955F, -0.28396752F, -0.20580888F),
+					new RotationAngle(rightForeArm, -0.2617994F,  -0.21816616F, -1.3526301F),
+
+					new RotationAngle(leftLeg,      -0.08726646F,  0.0F,        -0.1308997F),
+					new RotationAngle(leftLowerLeg,  0.1308997F,   0.0F,         0.0F),
+
+					new RotationAngle(rightLeg,     -0.08726646F,  0.0F,         0.08726646F),
+					new RotationAngle(rightLowerLeg, 0.1308997F,   0.0F,         0.0F),
 			}
 		};
     }
@@ -89,9 +105,9 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 				new ModelPoseTransition<>(chargePose, burstPose)
 						.setEasing(t -> {
 							if (t <= 0.1F) {
-								float x = t / 0.2F;          // 0..1
+								float x = t / 0.2F;          
 								float u = 1.0F - x;
-								return 1.0F - u*u*u;         // ease-out to 1 fast
+								return 1.0F - u*u*u;         
 							}
 							return 1.0F;});
 
@@ -156,9 +172,9 @@ public class DemonStandModel extends HumanoidStandModel<DemonStandEntity> {
 				new ModelPoseTransition<>(windup, hit)
 						.setEasing(t -> {
 							if (t <= 0.1F) {
-								float x = t / 0.2F;          // 0..1
+								float x = t / 0.2F;          
 								float u = 1.0F - x;
-								return 1.0F - u*u*u;         // ease-out to 1 fast
+								return 1.0F - u*u*u;         
 							}
 							return 1.0F;
 						});

@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-public class InitCapabilitys {
+public class InitCapabilities {
     public static void register(FMLCommonSetupEvent event) {
         CapabilityManager.INSTANCE.register(
                 FearPower.class,
@@ -33,6 +33,6 @@ public class InitCapabilitys {
     }
 
     public static void init(IEventBus modBus) {
-        modBus.addListener(InitCapabilitys::register);
+        modBus.addListener(InitCapabilities::register);
     }
 }
