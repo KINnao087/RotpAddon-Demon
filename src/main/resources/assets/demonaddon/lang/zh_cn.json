@@ -10,6 +10,7 @@
   "action.demonaddon.domain_close": "收回",
   "action.demonaddon.demon_stand_block": "格挡",
   "action.demonaddon.demon_stand_freeze": "静滞之暗",
-  "action.demonaddon.demon_view": "暗之窥探"
+  "action.demonaddon.demon_view": "暗之窥探",
+  "effect.demonaddon.horrified": "惊骇"
 
 }

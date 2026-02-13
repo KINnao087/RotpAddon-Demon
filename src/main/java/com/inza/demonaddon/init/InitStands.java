@@ -16,6 +16,9 @@ import com.inza.demonaddon.action.domain.StandDomainClose;
 import com.inza.demonaddon.action.demonview.DemonViewAction;
 import com.inza.demonaddon.action.freeze.FreezeAction;
 import com.inza.demonaddon.action.heartpiercingpunch.HeartPiercingPunchAction;
+import com.inza.demonaddon.action.normalactions.DemonStandHeavyAttack;
+import com.inza.demonaddon.action.normalactions.DemonStandLightAttack;
+import com.inza.demonaddon.action.normalactions.DemonStandMeleeBarrage;
 import com.inza.demonaddon.entity.DemonStandEntity;
 
 import net.minecraftforge.fml.RegistryObject;
@@ -35,12 +38,12 @@ public class InitStands {
     // Create all the abilities here...
 
     public static final RegistryObject<StandEntityAction> DEMON_STAND_PUNCH = ACTIONS.register("demon_stand_punch",
-            () -> new StandEntityLightAttack(new StandEntityLightAttack.Builder()
+            () -> new DemonStandLightAttack(new StandEntityLightAttack.Builder()
                     .punchSound(InitSounds.DEMON_STAND_PUNCH_LIGHT)
             ));
     
     public static final RegistryObject<StandEntityAction> DEMON_STAND_BARRAGE = ACTIONS.register("demon_stand_barrage",
-            () -> new StandEntityMeleeBarrage(new StandEntityMeleeBarrage.Builder()
+            () -> new DemonStandMeleeBarrage(new StandEntityMeleeBarrage.Builder()
 //                    .standSound(InitSounds.DEMON_STAND_BARRAGE)
                     .barrageHitSound(InitSounds.DEMON_STAND_PUNCH_BARRAGE)));
 
@@ -58,7 +61,7 @@ public class InitStands {
                     .partsRequired(StandPart.ARMS)));
 
     public static final RegistryObject<StandEntityHeavyAttack> DEMON_STAND_HEAVY_PUNCH = ACTIONS.register("demon_stand_heavy_punch",
-            () -> new StandEntityHeavyAttack(new StandEntityHeavyAttack.Builder()
+            () -> new DemonStandHeavyAttack(new StandEntityHeavyAttack.Builder()
                     .shiftVariationOf(DEMON_STAND_PUNCH).shiftVariationOf(DEMON_STAND_BARRAGE)
                     .setFinisherVariation(DEMON_STAND_FINISHER_PUNCH)
                     .punchSound(InitSounds.DEMON_STAND_PUNCH_HEAVY)

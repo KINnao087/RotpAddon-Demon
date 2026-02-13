@@ -11,6 +11,8 @@ import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.damage.StandEntityDamageSource;
 
+import com.inza.demonaddon.init.InitEffects;
+import com.inza.demonaddon.utils.ServerUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -52,6 +54,13 @@ public class HeartPiercingPunchAction extends StandEntityHeavyAttack {
         punch.reduceKnockback(0.0F);
 
         if (!(target instanceof LivingEntity)) return punch;
+
+        ServerUtils.randomAddEffects(
+                (LivingEntity) target,
+                new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
+                        , 2, false, true, true),
+                1.0f, InitEffects.MAX_EFFECT_STACKS
+        );
 
         LivingEntity victim = (LivingEntity) target;
         victim.addEffect(new EffectInstance(Effects.WITHER, 40, 0, false, false, false));

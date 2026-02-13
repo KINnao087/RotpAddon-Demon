@@ -35,6 +35,7 @@ public class AddonMain {
         // (see ForgeRegistries or JojoCustomRegistries)
         InitEntities.ENTITIES.register(modEventBus);
         InitParticles.PARTICLES.register(modEventBus);
+        InitEffects.EFFECTS.register(modEventBus);
         InitSounds.SOUNDS.register(modEventBus);
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
@@ -47,7 +48,7 @@ public class AddonMain {
     }
 
     public void attachCapability(AttachCapabilitiesEvent<LivingEntity> event) {
-        if (event.getObject() != null) {
+        if (event.getObject() != null && event.getObject() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getObject();
             if (!entity.getCapability(FearPowerProvider.FEAR_POWER_CAPABILITY).isPresent()) {
                 event.addCapability(new ResourceLocation(AddonMain.MOD_ID, "fear_power"), new FearPowerProvider());

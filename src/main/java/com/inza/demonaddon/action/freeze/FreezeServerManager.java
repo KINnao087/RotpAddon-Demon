@@ -65,7 +65,6 @@ public final class FreezeServerManager {
         return of(sw).addInternal(sw, areaForRender, ticks, expandTick, maxRadius, maxTicks, closeTick, user, action);
     }
 
-    // 如果你不想传这么多参数，走这个：直接传 DomainInstance + user
     public static int addFreeze(World w,
                                 DomainInstance area,
                                 @Nullable LivingEntity user) {
@@ -73,7 +72,6 @@ public final class FreezeServerManager {
         return of((ServerWorld) w).addInternalSimple(area, user);
     }
 
-    // ===================== 内部实现 =====================
 
     private int addInternalSimple(DomainInstance area, @Nullable LivingEntity user) {
         System.out.println("addInternalSimple: ");
@@ -253,6 +251,7 @@ public final class FreezeServerManager {
         setStopFlag(e, frozen);
         // 2) 客户端：停动画
         syncFrozenToClients(e, frozen);
+        if(frozen) FreezeAction.onEntity(e);
     }
 
     private void syncFrozenToClients(Entity e, boolean frozen) {

@@ -12,6 +12,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.LazyOptional;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class MyUtils {
     public static final String K_HAS_DEMON = "has_demon";
 
@@ -81,5 +83,11 @@ public class MyUtils {
     public static boolean consumeFearPower(LivingEntity entity, float amount) {
         FearPower fearPower = getFearPower(entity);
         return fearPower != null && fearPower.consume(amount);
+    }
+
+    public static boolean randomTrue(float probability) {
+        if (probability <= 0.0F) return false;
+        if (probability >= 1.0F) return true;
+        return ThreadLocalRandom.current().nextFloat() < probability;
     }
 }

@@ -9,9 +9,13 @@ import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.inza.demonaddon.action.domain.DomainInstance;
 import com.inza.demonaddon.action.freeze.network.FreezeNetwork;
 import com.inza.demonaddon.action.freeze.network.packet.S2CAddFreezeDomainPacket;
+import com.inza.demonaddon.init.InitEffects;
 import com.inza.demonaddon.power.FearPower;
 import com.inza.demonaddon.utils.MyUtils;
+import com.inza.demonaddon.utils.ServerUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -40,6 +44,18 @@ public class FreezeAction extends StandEntityAction {
         this.staminaCostPerTick = builder.staminaCostPerTick;
 
         this.fearCost = builder.fearCost;
+    }
+
+    public static void onEntity(Entity entity) {
+        if (!(entity instanceof LivingEntity)) {return;}
+
+        LivingEntity livingEntity = (LivingEntity) entity;
+        ServerUtils.randomAddEffects(
+                livingEntity,
+                new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
+                        , 3, false, true, true),
+                1.0f, InitEffects.MAX_EFFECT_STACKS
+        );
     }
 
     // ===== stamina =====

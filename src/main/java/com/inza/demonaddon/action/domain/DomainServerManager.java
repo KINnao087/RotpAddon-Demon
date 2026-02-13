@@ -99,7 +99,7 @@ public class DomainServerManager {
             float r = d.currentRadius(nowTick);
             if (r <= 0.1f) continue;
 
-            StandDomainAction.handleDomainEffects(world, d.center, r, caster);
+            StandDomainAction.onDomain(world, d.center, r, caster);
             if (!MyUtils.consumeFearPower(caster, InitStands.DEMON_STAND_DOMAIN.get().getFearCostPerTick())) {
                 LivingEntity user = power.getUser();
                 AddonNetwork.CHANNEL.send(

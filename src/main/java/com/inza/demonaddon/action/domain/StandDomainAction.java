@@ -8,6 +8,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.init.power.non_stand.ModPowers;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.inza.demonaddon.action.domain.network.packet.S2CAddDomainPacket;
+import com.inza.demonaddon.init.InitEffects;
 import com.inza.demonaddon.init.InitStands;
 import com.inza.demonaddon.AddonNetwork;
 import com.inza.demonaddon.utils.ServerUtils;
@@ -163,7 +164,7 @@ public class StandDomainAction extends StandEntityAction {
     private static final int EFFECT_DURATION = 50;
     private static final int DAMAGE_INTERVAL_TICKS = 20;
     private static final float DAMAGE_AMOUNT = 2.0F;
-    public static void handleDomainEffects(World world, Vector3d center, float r, LivingEntity caster) {
+    public static void onDomain(World world, Vector3d center, float r, LivingEntity caster) {
         if (world.isClientSide()) {return;}
         AxisAlignedBB box = new AxisAlignedBB(center, center).inflate(r);
 
@@ -188,6 +189,12 @@ public class StandDomainAction extends StandEntityAction {
             entity.addEffect(new EffectInstance(Effects.BLINDNESS, EFFECT_DURATION, 0));
             if (doDamage) {
                 entity.hurt(ServerUtils.getCasterDamageSource(caster), DAMAGE_AMOUNT);
+                ServerUtils.randomAddEffects(
+                        entity,
+                        new EffectInstance(InitEffects.HORRIFIED.get(), InitEffects.MAX_EFFECT_DURATION
+                                , 0, false, true, true),
+                        1.0f, InitEffects.MAX_EFFECT_STACKS
+                );
             }
         }
     }

@@ -3,6 +3,7 @@ package com.inza.demonaddon.power;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.inza.demonaddon.AddonMain;
 import com.inza.demonaddon.AddonNetwork;
+import com.inza.demonaddon.init.InitEffects;
 import com.inza.demonaddon.power.network.packet.S2CFearSyncPacket;
 import com.inza.demonaddon.utils.MyUtils;
 import net.minecraft.entity.Entity;
@@ -20,6 +21,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 @Mod.EventBusSubscriber(modid = AddonMain.MOD_ID)
 public class FearPowerHandler {
+    private static final String K_HORRIFIED_LAST = AddonMain.MOD_ID + ":horrified_last";
+
     @SubscribeEvent
     public static void onKillOtherEntity(final LivingDeathEvent event) {
         if (event.getEntity().level.isClientSide()) return;
@@ -81,6 +84,23 @@ public class FearPowerHandler {
                     NetworkDirection.PLAY_TO_CLIENT
             );
         });
+    }
+
+    @SubscribeEvent
+    public static void onHorrifiedEffectState(LivingEvent.LivingUpdateEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+        if (entity.level.isClientSide()) return;
+
+        boolean hasHorrified = entity.hasEffect(InitEffects.HORRIFIED.get());
+        boolean last = entity.getPersistentData().getBoolean(K_HORRIFIED_LAST);
+        if (hasHorrified == last) return;
+
+        entity.getPersistentData().putBoolean(K_HORRIFIED_LAST, hasHorrified);
+        onHorrifiedStateChanged(entity, hasHorrified);
+    }
+
+    private static void onHorrifiedStateChanged(LivingEntity entity, boolean hasHorrified) {
+        // Hook for custom logic when the Horrified marker effect appears/disappears.
     }
 
     private static void syncFearToTracking(LivingEntity entity, FearPower fear) {
