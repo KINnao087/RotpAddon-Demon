@@ -40,4 +40,4 @@ This project adds a custom Stand themed around **Demon / Fear**, including gamep
 2. Install **JDK 8**
 3. Clone this repository:
    ```bash
-   git [clone <your_repo_url>](https://github.com/KINnao087/RotpAddon-Demon.git)
+   git clone https://github.com/KINnao087/RotpAddon-Demon.git
