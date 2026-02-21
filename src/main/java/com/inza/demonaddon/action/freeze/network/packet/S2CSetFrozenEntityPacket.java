@@ -1,7 +1,8 @@
 package com.inza.demonaddon.action.freeze.network.packet;
 
 import com.github.standobyte.jojo.capability.world.WorldUtilCapProvider;
-import net.minecraft.client.Minecraft;
+import com.github.standobyte.jojo.client.ClientUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
@@ -30,7 +31,7 @@ public class S2CSetFrozenEntityPacket {
     public static void handle(S2CSetFrozenEntityPacket msg, Supplier<NetworkEvent.Context> ctxSup) {
         NetworkEvent.Context ctx = ctxSup.get();
         ctx.enqueueWork(() -> {
-            World world = Minecraft.getInstance().level;
+            World world = ClientUtil.getClientWorld();
             if (world == null) return;
 
             Entity e = world.getEntity(msg.entityId);
