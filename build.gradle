@@ -2,22 +2,19 @@ buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = "${addon_version}"
-group = 'com.inza.demonaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'RotP-AddonDemon'
+group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'RotP-AddonExample'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -62,8 +59,6 @@ minecraft {
                     source sourceSets.main
                 }
             }
-
-//            args "-mixin.config=mixins.demonaddon.json"
         }
 
         server {
@@ -86,8 +81,6 @@ minecraft {
                     source sourceSets.main
                 }
             }
-
-//            args "-mixin.config=mixins.demonaddon.json"
         }
 
         data {
@@ -125,10 +118,6 @@ repositories {
         name "RotP Maven"
         url 'https://raw.githubusercontent.com/StandoByte/RotP-maven/main'
     }
-
-    maven { url = 'https://maven.minecraftforge.net' }
-    mavenCentral()
-    flatDir { dirs 'libs' }
 }
 
 dependencies {
@@ -155,10 +144,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-//	implementation fg.deobf("standobyte.jojo:JJBA-RipplesOfThePast:${main_mod_version}")
-	implementation fg.deobf("local:JJBA-RipplesOfThePast:1.16.5-0.2.2.2")
+	implementation fg.deobf("standobyte.jojo:JJBA-RipplesOfThePast:${main_mod_version}")
 	compileOnly 'team.unnamed:mocha:3.0.0'
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -171,8 +158,7 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"examplemodsareus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "mixins.demonaddon.json"
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
@@ -194,13 +180,4 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-mixin {
-    add sourceSets.main, "mixins.demonaddon.refmap.json"
-    config "mixins.demonaddon.json"
 }

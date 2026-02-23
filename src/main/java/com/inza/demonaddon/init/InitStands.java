@@ -95,7 +95,7 @@ public class InitStands {
                     .standSound(StandEntityAction.Phase.PERFORM, InitSounds.DEMON_STAND_FREEZE).standPerformDuration(25)
                     .holdToFire(5, false)
                     .resolveLevelToUnlock(2)
-                    .staminaCost(10F).fearCost(1).staminaCostPerTick(0)
+                    .staminaCost(10F).fearCost(25).staminaCostPerTick(0)
             ));
 
     public static final RegistryObject<StandEntityAction> DEMON_STAND_VIEW = ACTIONS.register("demon_view",

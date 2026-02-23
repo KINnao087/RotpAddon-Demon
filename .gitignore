@@ -16,6 +16,7 @@ out
 # gradle
 build
 .gradle
+.gradle_home/
 
 # other
 eclipse
@@ -23,9 +24,3 @@ run
 
 # Files from Forge MDK
 forge*changelog.txt
-
-# Gradle caches / local wrapper dists (DO NOT COMMIT)
-.gradle/
-**/.gradle/
-.gradle_home/
-**/wrapper/dists/
