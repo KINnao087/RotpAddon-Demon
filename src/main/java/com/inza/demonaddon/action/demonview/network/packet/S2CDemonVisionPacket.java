@@ -1,6 +1,10 @@
 package com.inza.demonaddon.action.demonview.network.packet;
 
+import com.github.standobyte.jojo.client.ClientUtil;
 import com.inza.demonaddon.action.demonview.client.DemonViewClientState;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 
 public class S2CDemonVisionPacket {
     private final boolean enabled;
@@ -29,18 +33,18 @@ public class S2CDemonVisionPacket {
 
     public static void handle(S2CDemonVisionPacket msg, java.util.function.Supplier<net.minecraftforge.fml.network.NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-            if (mc.level == null || mc.player == null) return;
-            if (!mc.player.getUUID().equals(msg.casterUuid)) return;
+            World level = ClientUtil.getClientWorld();
+            PlayerEntity player = ClientUtil.getClientPlayer();
+            if (level == null || player == null || !player.getUUID().equals(msg.casterUuid)) return;
 
             if (!msg.enabled) {
                 DemonViewClientState.enabled = false;
                 DemonViewClientState.retracting = true;
-                DemonViewClientState.lastUpdateGameTime = mc.level.getGameTime();
+                DemonViewClientState.lastUpdateGameTime = level.getGameTime();
                 return;
             }
 
-            long now = mc.level.getGameTime();
+            long now = level.getGameTime();
             DemonViewClientState.enabled = true;
             DemonViewClientState.retracting = false;
             DemonViewClientState.casterUuid = msg.casterUuid;

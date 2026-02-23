@@ -1,7 +1,7 @@
 package com.inza.demonaddon.power.network.packet;
 
+import com.github.standobyte.jojo.client.ClientUtil;
 import com.inza.demonaddon.utils.MyUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public class S2CFearSyncPacket {
 
     public static void handle(S2CFearSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = Minecraft.getInstance().player;
+            PlayerEntity player = ClientUtil.getClientPlayer();
             if (player == null) return;
 
             Entity target = player.level.getEntity(msg.entityId);
